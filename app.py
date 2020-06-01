@@ -22,11 +22,11 @@ class App:
         self.switch = {
             UTMsgType.InitGame.value: self.__init_game__,
             UTMsgType.Exit.value: self.__game_over__,
-            UTMsgType.ClientUserinfo: self.__update_user_info__,
-            UTMsgType.ClientDisconnect: self.__user_disconnected__,
-            UTMsgType.Hit: self.__update_hit_stats__,
-            UTMsgType.Kill: self.__update_kill_stats__,
-            UTMsgType.say: self.__run_user_command__,
+            UTMsgType.ClientUserinfo.value: self.__update_user_info__,
+            UTMsgType.ClientDisconnect.value: self.__user_disconnected__,
+            UTMsgType.Hit.value: self.__update_hit_stats__,
+            UTMsgType.Kill.value: self.__update_kill_stats__,
+            UTMsgType.say.value: self.__run_user_command__,
         }
         self.exit_status = 0
 
@@ -36,6 +36,7 @@ class App:
             try:
                 for line in self.reader.getNewLines():
                     data = utLogParse(line)
+                    logging.info(data)
                     if data:   
                         funct = self.switch.get(data['TYPE'], None)
                         if funct:
