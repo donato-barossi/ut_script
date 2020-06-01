@@ -40,7 +40,7 @@ class App:
                     self.data = self.utLogParse.parse(line)
                     logging.info(self.data)
                     if self.data:   
-                        self.switch.get(self.data['TYPE'], None)
+                        self.switch.get(int(self.data['TYPE']), None)
             except OSError:
                 logging.error("No logs file found!")
             except Exception:
