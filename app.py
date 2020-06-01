@@ -19,7 +19,6 @@ class App:
         self.utLogParse = logparser.UtLogParser()
         self.reader = reader.FileReader()
         self.running = False
-        self.data = {}
         self.server = UTServer()
         self.switch = {
             UTMsgType.InitGame.value: self.__init_game__,
@@ -37,10 +36,10 @@ class App:
         while self.running:
             try:
                 for line in self.reader.getNewLines():
-                    self.data = self.utLogParse.parse(line)
-                    logging.info(self.data)
-                    if self.data:   
-                        self.switch.get(int(self.data['TYPE']), None)
+                    _type = self.utLogParse.parse(line)
+                    logging.info(_type)
+                    logging.info(self.utLogParse.data)
+                    self.switch.get(int(_type), None)
             except OSError:
                 logging.error("No logs file found!")
             except Exception:
@@ -52,8 +51,8 @@ class App:
 
     def __init_game__(self):
         logging.info(
-            "Removing current map [%s] from map list" % self.data['MAP'])
-        self.server.removeMap(self.data['MAP'])
+            "Removing current map [%s] from map list" % self.utLogParse.data['MAP'])
+        self.server.removeMap(self.utLogParse.data['MAP'])
         if len(self.server.maps) == 0:
             self.server.loadMapsFromFile()
         time.sleep(15)
@@ -64,56 +63,56 @@ class App:
         self.server.resetPlayersStats()
 
     def __update_user_info__(self):
-        logging.info('Update user [%s - %s - %s - %s]' % (self.data['ID'],
-                                                           self.data['GUID'], self.data['NAME'], self.data['WPMODE']))
+        logging.info('Update user [%s - %s - %s - %s]' % (self.utLogParse.data['ID'],
+                                                           self.utLogParse.data['GUID'], self.utLogParse.data['NAME'], self.utLogParse.data['WPMODE']))
         self.server.updatePlayer(
-            self.data['ID'], self.data['GUID'], self.data['NAME'], self.data['WPMODE'])
+            self.utLogParse.data['ID'], self.utLogParse.data['GUID'], self.utLogParse.data['NAME'], self.utLogParse.data['WPMODE'])
 
     def __user_disconnected__(self):
-        logging.info('Player disconnected [%s]' % self.data['PLAYER'])
-        self.server.playerDisconnected(self.data['PLAYER'])
+        logging.info('Player disconnected [%s]' % self.utLogParse.data['PLAYER'])
+        self.server.playerDisconnected(self.utLogParse.data['PLAYER'])
 
     def __update_hit_stats__(self):
         logging.info('%s hits %s on %s with %s' % (
-            self.data['SHOOTER'], self.data['HIT'], self.data['BODYPART'], self.data['WEAPON']))
+            self.utLogParse.data['SHOOTER'], self.utLogParse.data['HIT'], self.utLogParse.data['BODYPART'], self.utLogParse.data['WEAPON']))
         hs = self.server.updatePlayerHits(
-            self.data['SHOOTER'], self.data['BODYPART'])
+            self.utLogParse.data['SHOOTER'], self.utLogParse.data['BODYPART'])
         self.server.sendFunMsg(funMessages.getHitMsg(
-            int(self.data['BODYPART'])), self.data['HIT'])
-        self.server.sendFunMsg(funMessages.getHSMsg(hs), self.data['SHOOTER'])
+            int(self.utLogParse.data['BODYPART'])), self.utLogParse.data['HIT'])
+        self.server.sendFunMsg(funMessages.getHSMsg(hs), self.utLogParse.data['SHOOTER'])
 
     def __update_kill_stats__(self):
         logging.info('%s kills %s. Mode: %s' % (
-            self.data['KILLER'], self.data['DEAD'], self.data['HOW']))
-        kills = self.server.updatePlayerKills(self.data['KILLER'])
-        deaths = self.server.updatePlayerDead(self.data['DEAD'])
+            self.utLogParse.data['KILLER'], self.utLogParse.data['DEAD'], self.utLogParse.data['HOW']))
+        kills = self.server.updatePlayerKills(self.utLogParse.data['KILLER'])
+        deaths = self.server.updatePlayerDead(self.utLogParse.data['DEAD'])
         self.server.sendFunMsg(funMessages.getKillMsg(
-            int(self.data['HOW'])), self.data['DEAD'])
+            int(self.utLogParse.data['HOW'])), self.utLogParse.data['DEAD'])
         self.server.sendFunMsg(
-            funMessages.getKillStreakMsg(kills), self.data['KILLER'])
+            funMessages.getKillStreakMsg(kills), self.utLogParse.data['KILLER'])
         self.server.sendFunMsg(
-            funMessages.getSeriesOfDeadMsg(deaths), self.data['DEAD'])
-        killer = self.server.getPlayerById(self.data['KILLER'])
+            funMessages.getSeriesOfDeadMsg(deaths), self.utLogParse.data['DEAD'])
+        killer = self.server.getPlayerById(self.utLogParse.data['KILLER'])
         if killer:
             self.server.sendFunMsg(funMessages.getFunKillMessage(
-                killer.guid, int(self.data['HOW'])), self.data['DEAD'])
-        dead = self.server.getPlayerById(self.data['DEAD'])
+                killer.guid, int(self.utLogParse.data['HOW'])), self.utLogParse.data['DEAD'])
+        dead = self.server.getPlayerById(self.utLogParse.data['DEAD'])
         if dead:
             self.server.sendFunMsg(funMessages.getFunDeadMessage(
-                dead.giud, int(self.data['HOW'])))
-        self.server.printPlayerStats(self.data['KILLER'])
+                dead.giud, int(self.utLogParse.data['HOW'])))
+        self.server.printPlayerStats(self.utLogParse.data['KILLER'])
 
     def __run_user_command__(self):
         logging.info('%s send command %s %s' %
-                      (self.data['PLAYER'], self.data['CMD'], self.data['MSG']))
-        player = self.server.getPlayerById(self.data['PLAYER'])
-        if player and commands.isAuthorized(player, self.data['CMD']):
-            cmd = commands.getUserCommand(self.data['CMD'])
+                      (self.utLogParse.data['PLAYER'], self.utLogParse.data['CMD'], self.utLogParse.data['MSG']))
+        player = self.server.getPlayerById(self.utLogParse.data['PLAYER'])
+        if player and commands.isAuthorized(player, self.utLogParse.data['CMD']):
+            cmd = commands.getUserCommand(self.utLogParse.data['CMD'])
             if cmd:
-                self.server.sendCmd(cmd % self.data['MSG'])
-            elif self.data['CMD'] in commands.AppCmds:
+                self.server.sendCmd(cmd % self.utLogParse.data['MSG'])
+            elif self.utLogParse.data['CMD'] in commands.AppCmds:
                 self.running = False
-                self.exit_status = commands.AppCmds[self.data['CMD']].value
+                self.exit_status = commands.AppCmds[self.utLogParse.data['CMD']].value
         elif player:
             self.server.say(commands.NotAuthorizedMsg % player.name)
 

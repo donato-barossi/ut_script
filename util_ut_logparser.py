@@ -30,10 +30,9 @@ class UtLogParser:
             logging.info(UTMsgType[msgtype])
             logging.info(UTMsgType[msgtype].value)
             switch.get(UTMsgType[msgtype].value, None)
-            self.data['TYPE'] = UTMsgType[msgtype].value
-            return self.data
+            return UTMsgType[msgtype].value
         else:
-            return None
+            return -1
 
     def __get_cmd_type__ (self):
         regex = r"\d+\:\d+\ (?P<cmdtype>[a-zA-Z]+)"
