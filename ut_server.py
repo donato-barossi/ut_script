@@ -51,7 +51,7 @@ class UTServer:
             self.socket.bigText(msg)
         time.sleep(cfg.MessageDelay)
 
-    def getPlayerById(self, _id) -> Player:
+    def getPlayerById(self, _id):
         player = Player(_id)
         if player in self.players:
             return self.players[self.players.index(player)]
