@@ -2,9 +2,12 @@ import os
 import cfg_server_config as cfg
 
 class FileReader :
-    def __init__(self, path = cfg.UrtPath + "/" + cfg.UrtLogPath):
+    def __init__(self, path = cfg.UrtPath + "/" + cfg.UrtLogPath, fromBeginning = False):
         self.path = path
-        self.readsize = 0
+        if fromBeginning:
+            self.readsize = 0
+        else:
+            self.readsize = os.path.getsize(self.path)
 
     def getNewLines(self):
         newlines = []
