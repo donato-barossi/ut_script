@@ -40,7 +40,7 @@ def __get_client_info__(line):
     data = {}
     if res:
         data['ID'] = res.group('id')
-        data['NAME'] = res.group('player')
+        data['NAME'] = res.group('name')
         data['GUID'] = res.group('guid')
         data['WPMODE'] = res.group('wpmode')
     return data
