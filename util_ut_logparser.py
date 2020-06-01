@@ -2,16 +2,19 @@ import os
 import re
 from cfg_ut_const import UTMsgType
 
+currentLine = ''
+
 def parse(line):
+    currentLine = line
     msgtype = line.split(':')[0]
     switch = {
-        UTMsgType.InitGame.value: __get_game_info__(line),
-        UTMsgType.Exit.value : __get_game_over__(line),
-        UTMsgType.ClientUserinfo : __get_client_info__(line),
-        UTMsgType.ClientDisconnect : __get_client_disconnected__(line),
-        UTMsgType.Hit : __get_hit_info__(line),
-        UTMsgType.Kill : __get_kill_info__(line),
-        UTMsgType.say : __get_user_msg__(line),
+        UTMsgType.InitGame.value: __get_game_info__,
+        UTMsgType.Exit.value : __get_game_over__,
+        UTMsgType.ClientUserinfo : __get_client_info__,
+        UTMsgType.ClientDisconnect : __get_client_disconnected__,
+        UTMsgType.Hit : __get_hit_info__,
+        UTMsgType.Kill : __get_kill_info__,
+        UTMsgType.say : __get_user_msg__,
     }
 
     data = switch.get(UTMsgType[msgtype].value, None)
@@ -19,7 +22,7 @@ def parse(line):
     return data
 
 
-def __get_game_info__(line):
+def __get_game_info__(line = currentLine):
     regex = r"InitGame:\ .*g_gametype\\(?P<gametype>[^\\]*).*mapname\\(?P<mapname>[^\\]*)"
     res = re.search(regex, line) 
     data = {}
@@ -28,12 +31,12 @@ def __get_game_info__(line):
         data['GAMETYPE'] = res.group('gametype')
     return data
 
-def __get_game_over__(line):
+def __get_game_over__(line = currentLine):
     #regex = r"Exit:\ Timelimit\ hit"
     data = {}
     return data
 
-def __get_client_info__(line):
+def __get_client_info__(line = currentLine):
     regex = r"ClientUserinfo:\ (?P<id>\d+).*name\\(?P<name>[^\\]*)(\\|$).*cl_guid\\(?P<guid>[^\\]*?)(\\|$).*weapmodes\\(?P<wpmode>[^\\]*?)(\\|$)"
     res = re.search(regex, line) 
     data = {}
@@ -44,7 +47,7 @@ def __get_client_info__(line):
         data['WPMODE'] = res.group('wpmode')
     return data
 
-def __get_client_disconnected__(line):
+def __get_client_disconnected__(line = currentLine):
     regex = r"ClientDisconnect:\ (?P<player>\d+)"
     res = re.search(regex, line) 
     data = {}
@@ -52,7 +55,7 @@ def __get_client_disconnected__(line):
         data['PLAYER_ID'] = res.group('player')
     return data
 
-def __get_hit_info__(line):
+def __get_hit_info__(line = currentLine):
     regex = r"Hit:\ (?P<dead>\d+)\ (?P<player>\d+)\ (?P<where>\d+)\ (?P<gun>\d+)"
     res = re.search(regex, line) 
     data = {}
@@ -64,7 +67,7 @@ def __get_hit_info__(line):
     return data
 
 
-def __get_kill_info__(line):
+def __get_kill_info__(line = currentLine):
     regex = r"Kill:\ (?P<player>\d+)\ (?P<dead>\d+)\ (?P<mode>\d+)"
     res = re.search(regex, line) 
     data = {}
@@ -74,7 +77,7 @@ def __get_kill_info__(line):
         data['HOW'] = res.group('mode')
     return data
 
-def __get_user_msg__(line):
+def __get_user_msg__(line = currentLine):
     regex = r"say:\ (?P<player>\d+)[^:]*:\ !(?P<cmd>[^\ ]*)(\ (?P<msg>.*))*"
     res = re.search(regex, line) 
     data = {}
