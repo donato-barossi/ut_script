@@ -18,13 +18,13 @@ class App:
         self.data = {}
         self.server = UTServer()
         self.switch = {
-            UTMsgType.InitGame.value: self.__init_game__(),
-            UTMsgType.Exit.value: self.__game_over__(),
-            UTMsgType.ClientUserinfo: self.__update_user_info__(),
-            UTMsgType.ClientDisconnect: self.__user_disconnected__(),
-            UTMsgType.Hit: self.__update_hit_stats__(),
-            UTMsgType.Kill: self.__update_kill_stats__(),
-            UTMsgType.say: self.__run_user_command__(),
+            UTMsgType.InitGame.value: self.__init_game__,
+            UTMsgType.Exit.value: self.__game_over__,
+            UTMsgType.ClientUserinfo: self.__update_user_info__,
+            UTMsgType.ClientDisconnect: self.__user_disconnected__,
+            UTMsgType.Hit: self.__update_hit_stats__,
+            UTMsgType.Kill: self.__update_kill_stats__,
+            UTMsgType.say: self.__run_user_command__,
         }
         self.exit_status = 0
 
@@ -101,9 +101,9 @@ class App:
 def main():
     process = App()
     appmenu = {
-        commands.AppCmds['restart'] : __restart__(process),
-        commands.AppCmds['pause'] : __pause__(process),
-        commands.AppCmds['resume'] : __resume__(process)
+        commands.AppCmds['restart'] : __restart__,
+        commands.AppCmds['pause'] : __pause__,
+        commands.AppCmds['resume'] :  __resume__
         }
     
     status = process.run()
@@ -111,20 +111,20 @@ def main():
         process = appmenu.get(status, process)
         status = process.run()
 
-def __restart__(process):
-    del process
+def __restart__():
+    #del process
     return App()
     
-def __pause__(process):
+def __pause__():
     try:
         time.sleep(30)
     except Exception as e:
         logging.error(e)
-    return process
+
 
 def __resume__(process):
     #TODO
     logging.warning('Functionality not yet implemented!')
-    return process
+
 
 main()
