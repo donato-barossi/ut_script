@@ -2,7 +2,7 @@ import os
 import cfg_server_config as cfg
 
 class FileReader :
-    def __init__(self, path = cfg.UrtLogPath):
+    def __init__(self, path = cfg.UrtPath + "/" + cfg.UrtLogPath):
         self.path = path
         self.readsize = 0
         self.newlines = []
