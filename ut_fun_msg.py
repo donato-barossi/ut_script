@@ -13,12 +13,12 @@ HitMsgs = {
 }
 
 KillMsgs = {
-    UTMode.MOD_SUICIDE: ["^1%s ^7ha deciso di suicidarsi!"],
-    UTMode.MOD_TRIGGER_HURT: ["^1%s ^7che fine da pollo!"],
+    UTMode.MOD_SUICIDE.value: ["^1%s ^7ha deciso di suicidarsi!"],
+    UTMode.MOD_TRIGGER_HURT.value: ["^1%s ^7che fine da pollo!"],
     # UTMode.UT_MOD_KNIFE : [""],
-    UTMode.UT_MOD_NUKED: ["^1%s ^7e' stato silurato dall'admin!"],
-    UTMode.UT_MOD_SMITED: ["^1%s ^7si e' beccato la punizione divina!"],
-    UTMode.MOD_FALLING: ["^1%s ^7e' morto miseramente!"]
+    UTMode.UT_MOD_NUKED.value: ["^1%s ^7e' stato silurato dall'admin!"],
+    UTMode.UT_MOD_SMITED.value: ["^1%s ^7si e' beccato la punizione divina!"],
+    UTMode.MOD_FALLING.value: ["^1%s ^7e' morto miseramente!"]
 }
 
 KillStreakMsgs = {
@@ -44,12 +44,12 @@ HeadShotsMsgs = {
 FunnyDeadMessage = {
     # Capopattuglia
     'A17B770E3619E2E1420DD21648ACD7E5': {
-        UTMode.UT_MOD_KNIFE: [
+        UTMode.UT_MOD_KNIFE.value: [
             "Il ^1maiale^7 e' stato scannato"
         ]},
     # giogio79
     'D94814531BDCFD66595CC834F6EC5F87': {
-        UTMode.UT_MOD_KNIFE: [
+        UTMode.UT_MOD_KNIFE.value: [
             "Spennata la ^1quaglia^7!!"
         ]},
 }
@@ -57,7 +57,7 @@ FunnyDeadMessage = {
 FunnyKillMessage = {
     # Capopattuglia
     'A17B770E3619E2E1420DD21648ACD7E5': {
-        UTMode.UT_MOD_KNIFE: [
+        UTMode.UT_MOD_KNIFE.value: [
             "La vendetta del maiale si e' abbattuta su %s",
             "E il maiale colpisce ancora (%s che finaccia!)"
         ]}
