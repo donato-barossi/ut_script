@@ -103,6 +103,8 @@ def parse(line):
     logging.info(line)
     msgtype = __get_cmd_type__(line)
     logging.info(msgtype)
+    if msgtype in UTMsgType.__dict__:
+        logging.info(UTMsgType[msgtype].value)
     funct = switch.get(UTMsgType[msgtype].value, None)
     if funct:
         data = funct(line)
