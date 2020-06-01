@@ -29,6 +29,7 @@ class App:
             UTMsgType.say.value: self.__run_user_command__,
         }
         self.exit_status = 0
+        self.server.say("Funny script initialized!")
 
     def run(self):
         self.running = True
@@ -100,7 +101,7 @@ class App:
         dead = self.server.getPlayerById(data['DEAD'])
         if dead:
             self.server.sendFunMsg(funMessages.getFunDeadMessage(
-                dead.giud, int(data['HOW'])))
+                dead.guid, int(data['HOW'])))
         self.server.printPlayerStats(data['KILLER'])
 
     def __run_user_command__(self, data):
