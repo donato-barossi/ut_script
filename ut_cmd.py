@@ -13,10 +13,10 @@ UtCmds = {
 }
 
 AppCmds = {
-    'stop' : 1,
-    'restart' : 2,
-    'pause' : 3,
-    'resume' : 4
+    'stop' : 0,
+    'restart' : 1,
+    'pause' : 2,
+    'resume' : 3
 }
 
 Auth = {
