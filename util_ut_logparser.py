@@ -91,13 +91,13 @@ def __get_user_msg__(line):
 
 def parse(line):
     switch = {
-        UTMsgType.InitGame.value: __get_game_info__,
-        UTMsgType.Exit.value: __get_game_over__,
-        UTMsgType.ClientUserinfo: __get_client_info__,
-        UTMsgType.ClientDisconnect: __get_client_disconnected__,
-        UTMsgType.Hit: __get_hit_info__,
-        UTMsgType.Kill: __get_kill_info__,
-        UTMsgType.say: __get_user_msg__,
+        int(UTMsgType.InitGame.value) : __get_game_info__,
+        int(UTMsgType.Exit.value) : __get_game_over__,
+        int(UTMsgType.ClientUserinfo): __get_client_info__,
+        int(UTMsgType.ClientDisconnect) : __get_client_disconnected__,
+        int(UTMsgType.Hit): __get_hit_info__,
+        int(UTMsgType.Kill): __get_kill_info__,
+        int(UTMsgType.say): __get_user_msg__,
     }
 
     logging.info(line)
@@ -105,8 +105,9 @@ def parse(line):
     logging.info(msgtype)
     if msgtype in UTMsgType.__dict__:
         logging.info(UTMsgType[msgtype].value)
-    funct = switch.get(UTMsgType[msgtype].value, None)
+    funct = switch.get(int(UTMsgType[msgtype].value), None)
     if funct:
+        logging.info("running function")
         data = funct(line)
         data['TYPE'] = UTMsgType[msgtype].value
         logging.info(data)
