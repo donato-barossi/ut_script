@@ -22,7 +22,7 @@ def parse(line):
         UTMsgType.Kill : __get_kill_info__,
         UTMsgType.say : __get_user_msg__,
     }
-    logging.info(UTMsgType[msgtype)
+    logging.info(UTMsgType[msgtype])
     data = switch.get(UTMsgType[msgtype].value, None)
     data['TYPE'] = UTMsgType[msgtype].value
     return data
