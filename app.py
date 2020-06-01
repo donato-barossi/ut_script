@@ -37,12 +37,11 @@ class App:
             try:
                 for line in self.reader.getNewLines():
                     self.data = utLogParse(line)
-                    logging.info("Get data::")
-                    logging.info(self.data)
-                    self.switch.get(self.data['TYPE'], None)
+                    if data:   
+                        self.switch.get(self.data['TYPE'], None)
             except OSError:
                 logging.error("No logs file found!")
-            except Exception as e:
+            except Exception:
                 logging.error("An error occurred while elaborating this line: [%s]" % line)
                 track = traceback.format_exc()
                 logging.error(track)

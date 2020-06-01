@@ -11,22 +11,26 @@ currentLine = ''
 def parse(line):
     global currentLine 
     currentLine = line
-    msgtype = line.split(':')[0]
-    logging.info("MSG TYPE:: %s" % msgtype)
-    switch = {
-        UTMsgType.InitGame.value: __get_game_info__,
-        UTMsgType.Exit.value : __get_game_over__,
-        UTMsgType.ClientUserinfo : __get_client_info__,
-        UTMsgType.ClientDisconnect : __get_client_disconnected__,
-        UTMsgType.Hit : __get_hit_info__,
-        UTMsgType.Kill : __get_kill_info__,
-        UTMsgType.say : __get_user_msg__,
-    }
-    logging.info(UTMsgType[msgtype])
-    data = switch.get(UTMsgType[msgtype].value, None)
-    data['TYPE'] = UTMsgType[msgtype].value
-    return data
-
+    regex = r"\d+\:\d+\ (?P<cmdtype>[a-zA-Z]+)"
+    res = re.search(regex, line) 
+    if res: 
+        msgtype = res.group('cmdtype')
+        logging.info("MSG TYPE:: %s" % msgtype)
+        switch = {
+            UTMsgType.InitGame.value: __get_game_info__,
+            UTMsgType.Exit.value : __get_game_over__,
+            UTMsgType.ClientUserinfo : __get_client_info__,
+            UTMsgType.ClientDisconnect : __get_client_disconnected__,
+            UTMsgType.Hit : __get_hit_info__,
+            UTMsgType.Kill : __get_kill_info__,
+            UTMsgType.say : __get_user_msg__,
+        }
+        logging.info(UTMsgType[msgtype])
+        data = switch.get(UTMsgType[msgtype].value, None)
+        data['TYPE'] = UTMsgType[msgtype].value
+        return data
+    else:
+        return None
 
 def __get_game_info__(line = currentLine):
     regex = r"InitGame:\ .*g_gametype\\(?P<gametype>[^\\]*).*mapname\\(?P<mapname>[^\\]*)"
