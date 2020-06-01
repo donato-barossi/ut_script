@@ -2,17 +2,6 @@ import os
 import re
 from cfg_ut_const import UTMsgType
 
-def parse(line):
-
-    msgtype = __get_cmd_type__ (line)
-    funct = switch.get(UTMsgType[msgtype].value, None)
-    if funct:
-        data = funct(line)
-        data['TYPE'] = UTMsgType[msgtype].value
-        return data
-    else:
-        return None
-
 def __get_cmd_type__ (line):
     regex = r"\d+\:\d+\ (?P<cmdtype>[a-zA-Z]+)"
     res = re.search(regex, line)
@@ -95,3 +84,13 @@ switch = {
     UTMsgType.Kill : __get_kill_info__,
     UTMsgType.say : __get_user_msg__,
 }
+
+def parse(line):
+    msgtype = __get_cmd_type__ (line)
+    funct = switch.get(UTMsgType[msgtype].value, None)
+    if funct:
+        data = funct(line)
+        data['TYPE'] = UTMsgType[msgtype].value
+        return data
+    else:
+        return None
