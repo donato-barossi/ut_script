@@ -26,6 +26,7 @@ def parse(line):
             UTMsgType.say : __get_user_msg__,
         }
         logging.info(UTMsgType[msgtype])
+        logging.info(UTMsgType[msgtype].value)
         data = switch.get(UTMsgType[msgtype].value, None)
         data['TYPE'] = UTMsgType[msgtype].value
         return data

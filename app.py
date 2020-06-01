@@ -37,7 +37,7 @@ class App:
             try:
                 for line in self.reader.getNewLines():
                     self.data = utLogParse(line)
-                    if data:   
+                    if self.data:   
                         self.switch.get(self.data['TYPE'], None)
             except OSError:
                 logging.error("No logs file found!")
