@@ -2,16 +2,6 @@ import os
 import re
 from cfg_ut_const import UTMsgType
 
-switch = {
-    UTMsgType.InitGame.value: __get_game_info__,
-    UTMsgType.Exit.value : __get_game_over__,
-    UTMsgType.ClientUserinfo : __get_client_info__,
-    UTMsgType.ClientDisconnect : __get_client_disconnected__,
-    UTMsgType.Hit : __get_hit_info__,
-    UTMsgType.Kill : __get_kill_info__,
-    UTMsgType.say : __get_user_msg__,
-}
-
 def parse(line):
 
     msgtype = __get_cmd_type__ (line)
@@ -95,3 +85,13 @@ def __get_user_msg__(line):
         data['CMD'] = res.group('cmd')
         data['MSG'] = res.group('msg')
     return data
+
+switch = {
+    UTMsgType.InitGame.value: __get_game_info__,
+    UTMsgType.Exit.value : __get_game_over__,
+    UTMsgType.ClientUserinfo : __get_client_info__,
+    UTMsgType.ClientDisconnect : __get_client_disconnected__,
+    UTMsgType.Hit : __get_hit_info__,
+    UTMsgType.Kill : __get_kill_info__,
+    UTMsgType.say : __get_user_msg__,
+}
