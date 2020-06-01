@@ -32,6 +32,7 @@ class App:
         self.running = True
         while self.running:
             for line in self.reader.getNewLines():
+                print(line)
                 try:
                     self.data  = utLogParse(line)
                     print(self.data)
