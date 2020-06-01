@@ -1,10 +1,7 @@
 import random
-import logging
 from cfg_ut_const import Body
 from cfg_ut_const import UTMode
 
-
-logging.basicConfig(level=logging.DEBUG, format="%(asctime)s %(levelname)s %(filename)s %(funcName)s %(lineno)s %(message)s",filename='logs/app.log', filemode='w')
 
 HitMsgs = {
     Body.Butt.value: ["Attento ^1%s^7: ti stanno sparando a culo!"],
@@ -98,8 +95,6 @@ def getSeriesOfDeadMsg(key):
 
 
 def __get_msg__(messages, key):
-    logging.info(messages)
-    logging.info(key)
     if key in messages:
         msgs = messages[key]
         return msgs[random.randint(0, len(msgs)-1)]

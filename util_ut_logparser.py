@@ -91,7 +91,7 @@ def __get_user_msg__(line):
 
 def parse(line):
     if line:
-        logging.info(line)
+        logging.debug(line)
         msgtype = __get_cmd_type__(line)
         
         switch = {
@@ -109,7 +109,7 @@ def parse(line):
             if funct:
                 data = funct(line)
                 data['TYPE'] = UTMsgType[msgtype].value
-                logging.info(data)
+                logging.debug(data)
                 return data
 
     return None

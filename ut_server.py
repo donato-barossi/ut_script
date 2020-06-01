@@ -48,7 +48,7 @@ class UTServer:
             self.socket.sendcmd(cmd)
 
     def sendFunMsg(self, msg, _id = None):
-        logging.info("sending big text %s %s" % (msg, _id))
+        logging.debug("sending big text %s %s" % (msg, _id))
         if _id:
             player = self.getPlayerById(_id)
             if msg and player:

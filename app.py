@@ -37,7 +37,7 @@ class App:
             try:
                 for line in self.reader.getNewLines():
                     data = utLogParse(line)
-                    logging.info(data)
+                    logging.debug(data)
                     if data:   
                         funct = self.switch.get(data['TYPE'], None)
                         if funct:
@@ -65,14 +65,13 @@ class App:
         self.server.resetPlayersStats()
 
     def __update_user_info__(self, data):
-        logging.debug('Update user [%s - %s - %s - %s]' % (data['ID'],
-                                                           data['GUID'], data['NAME'], data['WPMODE']))
+        logging.debug('Update user [%s - %s - %s - %s]' % (data['ID'],data['GUID'], data['NAME'], data['WPMODE']))
         self.server.updatePlayer(
             data['ID'], data['GUID'], data['NAME'], data['WPMODE'])
 
     def __user_disconnected__(self, data):
-        logging.debug('Player disconnected [%s]' % data['PLAYER'])
-        self.server.playerDisconnected(data['PLAYER'])
+        logging.debug('Player disconnected [%s]' % data['PLAYER_ID'])
+        self.server.playerDisconnected(data['PLAYER_ID'])
 
     def __update_hit_stats__(self, data):
         logging.debug('%s hits %s on %s with %s' % (
@@ -84,24 +83,18 @@ class App:
         self.server.sendFunMsg(funMessages.getHSMsg(hs), data['SHOOTER'])
 
     def __update_kill_stats__(self, data):
-        logging.debug('%s kills %s. Mode: %s' % (
-            data['KILLER'], data['DEAD'], data['HOW']))
+        logging.debug('%s kills %s. Mode: %s' % (data['KILLER'], data['DEAD'], data['HOW']))
         kills = self.server.updatePlayerKills(data['KILLER'])
         deaths = self.server.updatePlayerDead(data['DEAD'])
-        self.server.sendFunMsg(funMessages.getKillMsg(
-            int(data['HOW'])), data['DEAD'])
-        self.server.sendFunMsg(
-            funMessages.getKillStreakMsg(kills), data['KILLER'])
-        self.server.sendFunMsg(
-            funMessages.getSeriesOfDeadMsg(deaths), data['DEAD'])
+        self.server.sendFunMsg(funMessages.getKillMsg(int(data['HOW'])), data['DEAD'])
+        self.server.sendFunMsg(funMessages.getKillStreakMsg(kills), data['KILLER'])
+        self.server.sendFunMsg(funMessages.getSeriesOfDeadMsg(deaths), data['DEAD'])
         killer = self.server.getPlayerById(data['KILLER'])
         if killer:
-            self.server.sendFunMsg(funMessages.getFunKillMessage(
-                killer.guid, int(data['HOW'])), data['DEAD'])
+            self.server.sendFunMsg(funMessages.getFunKillMessage(killer.guid, int(data['HOW'])), data['DEAD'])
         dead = self.server.getPlayerById(data['DEAD'])
         if dead:
-            self.server.sendFunMsg(funMessages.getFunDeadMessage(
-                dead.guid, int(data['HOW'])))
+            self.server.sendFunMsg(funMessages.getFunDeadMessage(dead.guid, int(data['HOW'])))
         self.server.printPlayerStats(data['KILLER'])
 
     def __run_user_command__(self, data):
