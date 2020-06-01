@@ -16,7 +16,7 @@ class UtLogParser:
     def parse(self, line):
         self.line = line
         msgtype = self.__get_cmd_type__()
- 
+        logging.info(line)
         if msgtype and msgtype in UTMsgType.__dict__: 
             switch = {
                 UTMsgType.InitGame.value: self.__get_game_info__,
