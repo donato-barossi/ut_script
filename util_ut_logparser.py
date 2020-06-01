@@ -86,6 +86,8 @@ class UtLogParser:
     def __get_kill_info__(self):
         regex = r"Kill:\ (?P<player>\d+)\ (?P<dead>\d+)\ (?P<mode>\d+)"
         res = re.search(regex, self.line) 
+        logging.info(self.line)
+        logging.info(res)
         self.data = {}
         if res:
             self.data['KILLER'] = res.group('player')
