@@ -10,7 +10,7 @@ from cfg_ut_const import UTMsgType
 from ut_server import UTServer
 
 
-logging.basicConfig(level=logging.DEBUG, format="%(asctime)s %(levelname)s %(filename)s %(funcName)s %(lineno)s %(message)s",
+logging.basicConfig(level=logging.info, format="%(asctime)s %(levelname)s %(filename)s %(funcName)s %(lineno)s %(message)s",
                     filename='logs/app.log', filemode='w')
 
 
@@ -51,7 +51,7 @@ class App:
         return self.exit_status
 
     def __init_game__(self):
-        logging.debug(
+        logging.info(
             "Removing current map [%s] from map list" % self.data['MAP'])
         self.server.removeMap(self.data['MAP'])
         if len(self.server.maps) == 0:
@@ -64,17 +64,17 @@ class App:
         self.server.resetPlayersStats()
 
     def __update_user_info__(self):
-        logging.debug('Update user [%s - %s - %s - %s]' % (self.data['ID'],
+        logging.info('Update user [%s - %s - %s - %s]' % (self.data['ID'],
                                                            self.data['GUID'], self.data['NAME'], self.data['WPMODE']))
         self.server.updatePlayer(
             self.data['ID'], self.data['GUID'], self.data['NAME'], self.data['WPMODE'])
 
     def __user_disconnected__(self):
-        logging.debug('Player disconnected [%s]' % self.data['PLAYER'])
+        logging.info('Player disconnected [%s]' % self.data['PLAYER'])
         self.server.playerDisconnected(self.data['PLAYER'])
 
     def __update_hit_stats__(self):
-        logging.debug('%s hits %s on %s with %s' % (
+        logging.info('%s hits %s on %s with %s' % (
             self.data['SHOOTER'], self.data['HIT'], self.data['BODYPART'], self.data['WEAPON']))
         hs = self.server.updatePlayerHits(
             self.data['SHOOTER'], self.data['BODYPART'])
@@ -83,7 +83,7 @@ class App:
         self.server.sendFunMsg(funMessages.getHSMsg(hs), self.data['SHOOTER'])
 
     def __update_kill_stats__(self):
-        logging.debug('%s kills %s. Mode: %s' % (
+        logging.info('%s kills %s. Mode: %s' % (
             self.data['KILLER'], self.data['DEAD'], self.data['HOW']))
         kills = self.server.updatePlayerKills(self.data['KILLER'])
         deaths = self.server.updatePlayerDead(self.data['DEAD'])
@@ -104,7 +104,7 @@ class App:
         self.server.printPlayerStats(self.data['KILLER'])
 
     def __run_user_command__(self):
-        logging.debug('%s send command %s %s' %
+        logging.info('%s send command %s %s' %
                       (self.data['PLAYER'], self.data['CMD'], self.data['MSG']))
         player = self.server.getPlayerById(self.data['PLAYER'])
         if player and commands.isAuthorized(player, self.data['CMD']):
