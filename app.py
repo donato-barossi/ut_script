@@ -43,7 +43,8 @@ class App:
                 logging.error("No logs file found!")
             except Exception as e:
                 logging.error("An error occurred while elaborating this line: [%s]" % line)
-                logging.error(e)
+                track = traceback.format_exc()
+                logging.error(track)
             time.sleep(cfg.TSleep)
         return self.exit_status
 
