@@ -13,6 +13,7 @@ def parse(line):
     currentLine = line
     regex = r"\d+\:\d+\ (?P<cmdtype>[a-zA-Z]+)"
     res = re.search(regex, line) 
+    data = {}
     if res: 
         msgtype = res.group('cmdtype')
         logging.info("MSG TYPE:: %s" % msgtype)
