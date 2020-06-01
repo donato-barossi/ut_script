@@ -37,9 +37,10 @@ class App:
                 for line in self.reader.getNewLines():
                     self.data = utLogParse(line)
                     self.switch.get(self.data['TYPE'], None)
+            except OSError:
+                logging.error("No logs file found!")
             except Exception as e:
-                logging.error(
-                    "An error occurred while elaborating this line: [%s]" % line)
+                logging.error("An error occurred while elaborating this line: [%s]" % line)
                 logging.error(e)
             time.sleep(cfg.TSleep)
         return self.exit_status
