@@ -5,18 +5,17 @@ import cfg_server_config as cfg
 import util_file_reader as reader
 import ut_fun_msg as funMessages
 import ut_cmd as commands
-import util_ut_logparser as logparser
+from util_ut_logparser import parse as utLogParse
 from cfg_ut_const import UTMsgType
 from ut_server import UTServer
 
 
-logging.basicConfig(level=logging.info, format="%(asctime)s %(levelname)s %(filename)s %(funcName)s %(lineno)s %(message)s",
+logging.basicConfig(level=logging.DEBUG, format="%(asctime)s %(levelname)s %(filename)s %(funcName)s %(lineno)s %(message)s",
                     filename='logs/app.log', filemode='w')
 
 
 class App:
     def __init__(self):
-        self.utLogParse = logparser.UtLogParser()
         self.reader = reader.FileReader()
         self.running = False
         self.server = UTServer()
@@ -36,10 +35,11 @@ class App:
         while self.running:
             try:
                 for line in self.reader.getNewLines():
-                    _type = self.utLogParse.parse(line)
-                    logging.info(_type)
-                    logging.info(self.utLogParse.data)
-                    self.switch.get(int(_type), None)
+                    data = utLogParse(line)
+                    if data:   
+                        funct = self.switch.get(data['TYPE'], None)
+                        if funct:
+                            funct(data)
             except OSError:
                 logging.error("No logs file found!")
             except Exception:
@@ -49,10 +49,10 @@ class App:
             time.sleep(cfg.TSleep)
         return self.exit_status
 
-    def __init_game__(self):
-        logging.info(
-            "Removing current map [%s] from map list" % self.utLogParse.data['MAP'])
-        self.server.removeMap(self.utLogParse.data['MAP'])
+    def __init_game__(self, data):
+        logging.debug(
+            "Removing current map [%s] from map list" % data['MAP'])
+        self.server.removeMap(data['MAP'])
         if len(self.server.maps) == 0:
             self.server.loadMapsFromFile()
         time.sleep(15)
@@ -62,57 +62,57 @@ class App:
     def __game_over__(self):
         self.server.resetPlayersStats()
 
-    def __update_user_info__(self):
-        logging.info('Update user [%s - %s - %s - %s]' % (self.utLogParse.data['ID'],
-                                                           self.utLogParse.data['GUID'], self.utLogParse.data['NAME'], self.utLogParse.data['WPMODE']))
+    def __update_user_info__(self, data):
+        logging.debug('Update user [%s - %s - %s - %s]' % (data['ID'],
+                                                           data['GUID'], data['NAME'], data['WPMODE']))
         self.server.updatePlayer(
-            self.utLogParse.data['ID'], self.utLogParse.data['GUID'], self.utLogParse.data['NAME'], self.utLogParse.data['WPMODE'])
+            data['ID'], data['GUID'], data['NAME'], data['WPMODE'])
 
-    def __user_disconnected__(self):
-        logging.info('Player disconnected [%s]' % self.utLogParse.data['PLAYER'])
-        self.server.playerDisconnected(self.utLogParse.data['PLAYER'])
+    def __user_disconnected__(self, data):
+        logging.debug('Player disconnected [%s]' % data['PLAYER'])
+        self.server.playerDisconnected(data['PLAYER'])
 
-    def __update_hit_stats__(self):
-        logging.info('%s hits %s on %s with %s' % (
-            self.utLogParse.data['SHOOTER'], self.utLogParse.data['HIT'], self.utLogParse.data['BODYPART'], self.utLogParse.data['WEAPON']))
+    def __update_hit_stats__(self, data):
+        logging.debug('%s hits %s on %s with %s' % (
+            data['SHOOTER'], data['HIT'], data['BODYPART'], data['WEAPON']))
         hs = self.server.updatePlayerHits(
-            self.utLogParse.data['SHOOTER'], self.utLogParse.data['BODYPART'])
+            data['SHOOTER'], data['BODYPART'])
         self.server.sendFunMsg(funMessages.getHitMsg(
-            int(self.utLogParse.data['BODYPART'])), self.utLogParse.data['HIT'])
-        self.server.sendFunMsg(funMessages.getHSMsg(hs), self.utLogParse.data['SHOOTER'])
+            int(data['BODYPART'])), data['HIT'])
+        self.server.sendFunMsg(funMessages.getHSMsg(hs), data['SHOOTER'])
 
-    def __update_kill_stats__(self):
-        logging.info('%s kills %s. Mode: %s' % (
-            self.utLogParse.data['KILLER'], self.utLogParse.data['DEAD'], self.utLogParse.data['HOW']))
-        kills = self.server.updatePlayerKills(self.utLogParse.data['KILLER'])
-        deaths = self.server.updatePlayerDead(self.utLogParse.data['DEAD'])
+    def __update_kill_stats__(self, data):
+        logging.debug('%s kills %s. Mode: %s' % (
+            data['KILLER'], data['DEAD'], data['HOW']))
+        kills = self.server.updatePlayerKills(data['KILLER'])
+        deaths = self.server.updatePlayerDead(data['DEAD'])
         self.server.sendFunMsg(funMessages.getKillMsg(
-            int(self.utLogParse.data['HOW'])), self.utLogParse.data['DEAD'])
+            int(data['HOW'])), data['DEAD'])
         self.server.sendFunMsg(
-            funMessages.getKillStreakMsg(kills), self.utLogParse.data['KILLER'])
+            funMessages.getKillStreakMsg(kills), data['KILLER'])
         self.server.sendFunMsg(
-            funMessages.getSeriesOfDeadMsg(deaths), self.utLogParse.data['DEAD'])
-        killer = self.server.getPlayerById(self.utLogParse.data['KILLER'])
+            funMessages.getSeriesOfDeadMsg(deaths), data['DEAD'])
+        killer = self.server.getPlayerById(data['KILLER'])
         if killer:
             self.server.sendFunMsg(funMessages.getFunKillMessage(
-                killer.guid, int(self.utLogParse.data['HOW'])), self.utLogParse.data['DEAD'])
-        dead = self.server.getPlayerById(self.utLogParse.data['DEAD'])
+                killer.guid, int(data['HOW'])), data['DEAD'])
+        dead = self.server.getPlayerById(data['DEAD'])
         if dead:
             self.server.sendFunMsg(funMessages.getFunDeadMessage(
-                dead.giud, int(self.utLogParse.data['HOW'])))
-        self.server.printPlayerStats(self.utLogParse.data['KILLER'])
+                dead.giud, int(data['HOW'])))
+        self.server.printPlayerStats(data['KILLER'])
 
-    def __run_user_command__(self):
-        logging.info('%s send command %s %s' %
-                      (self.utLogParse.data['PLAYER'], self.utLogParse.data['CMD'], self.utLogParse.data['MSG']))
-        player = self.server.getPlayerById(self.utLogParse.data['PLAYER'])
-        if player and commands.isAuthorized(player, self.utLogParse.data['CMD']):
-            cmd = commands.getUserCommand(self.utLogParse.data['CMD'])
+    def __run_user_command__(self, data):
+        logging.debug('%s send command %s %s' %
+                      (data['PLAYER'], data['CMD'], data['MSG']))
+        player = self.server.getPlayerById(data['PLAYER'])
+        if player and commands.isAuthorized(player, data['CMD']):
+            cmd = commands.getUserCommand(data['CMD'])
             if cmd:
-                self.server.sendCmd(cmd % self.utLogParse.data['MSG'])
-            elif self.utLogParse.data['CMD'] in commands.AppCmds:
+                self.server.sendCmd(cmd % data['MSG'])
+            elif data['CMD'] in commands.AppCmds:
                 self.running = False
-                self.exit_status = commands.AppCmds[self.utLogParse.data['CMD']].value
+                self.exit_status = commands.AppCmds[data['CMD']].value
         elif player:
             self.server.say(commands.NotAuthorizedMsg % player.name)
 
@@ -127,25 +127,29 @@ def main():
 
     status = process.run()
     while status > 0:
-        process = appmenu.get(status, process)
+        function = appmenu.get(status, process)
+        if function:
+            process = function(process)
         status = process.run()
 
 
-def __restart__():
-    #del process
+def __restart__(process):
+    del process
     return App()
 
 
-def __pause__():
+def __pause__(process):
     try:
         time.sleep(30)
     except Exception as e:
         logging.error(e)
+    return process
 
 
 def __resume__(process):
     # TODO
     logging.warning('Functionality not yet implemented!')
+    return process
 
 
 main()
