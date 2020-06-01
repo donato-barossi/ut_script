@@ -5,6 +5,7 @@ from cfg_ut_const import UTMsgType
 currentLine = ''
 
 def parse(line):
+    global currentLine 
     currentLine = line
     msgtype = line.split(':')[0]
     switch = {
@@ -16,7 +17,6 @@ def parse(line):
         UTMsgType.Kill : __get_kill_info__,
         UTMsgType.say : __get_user_msg__,
     }
-
     data = switch.get(UTMsgType[msgtype].value, None)
     data['TYPE'] = UTMsgType[msgtype].value
     return data
