@@ -5,7 +5,7 @@ import cfg_server_config as cfg
 import util_file_reader as reader
 import ut_fun_msg as funMessages
 import ut_cmd as commands
-from util_ut_logparser import parse as utLogParse
+import util_ut_logparser as logparser
 from cfg_ut_const import UTMsgType
 from ut_server import UTServer
 
@@ -16,6 +16,7 @@ logging.basicConfig(level=logging.DEBUG, format="%(asctime)s %(levelname)s %(fil
 
 class App:
     def __init__(self):
+        self.utLogParse = logparser.UtLogParser()
         self.reader = reader.FileReader()
         self.running = False
         self.data = {}
@@ -36,7 +37,7 @@ class App:
         while self.running:
             try:
                 for line in self.reader.getNewLines():
-                    self.data = utLogParse(line)
+                    self.data = self.utLogParse.parse(line)
                     if self.data:   
                         self.switch.get(self.data['TYPE'], None)
             except OSError:
