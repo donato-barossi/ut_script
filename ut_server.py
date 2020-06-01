@@ -1,11 +1,16 @@
 import random
 import time
+import logging
 import cfg_server_config as cfg
 from ut_map import UtMap
 from ut_player import Player
 from util_file_reader import FileReader
 from util_ut_socket import Sock
 from cfg_ut_const import Body 
+
+
+
+logging.basicConfig(level=logging.DEBUG, format="%(asctime)s %(levelname)s %(filename)s %(funcName)s %(lineno)s %(message)s", filename='logs/app.log', filemode='w')
 
 class UTServer:
     def __init__(self):
@@ -28,7 +33,7 @@ class UTServer:
             if Body.Butt.value in player.stats.hits:
                 butt = butt + player.stats.hits[Body.Butt.value]
             hits = sum(player.stats.hits.values())
-            self.socket.say("%s hai messo a segno %s colpi: [%s ^1HS^7 - %s in pieno petto - %s a culo]" % (player.name, hits,  hs, vest, butt))
+            self.socket.say("%s^7 hai messo a segno %s colpi: [%s ^1HS^7 - %s in pieno petto - %s a culo]" % (player.name, hits,  hs, vest, butt))
 
     def tellToUser (self, user, msg):
         if user and isinstance(user, Player) and msg and isinstance(msg, str):
@@ -43,10 +48,12 @@ class UTServer:
             self.socket.sendcmd(cmd)
 
     def sendFunMsg(self, msg, _id = None):
+        logging.info("sending big text %s %s" % (msg, _id))
         if _id:
             player = self.getPlayerById(_id)
             if msg and player:
-                self.socket.bigText(msg % player.name)
+                msg = msg % player.name
+                self.socket.bigText(msg)
         elif msg:
             self.socket.bigText(msg)
         time.sleep(cfg.MessageDelay)
