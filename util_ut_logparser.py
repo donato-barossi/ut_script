@@ -2,12 +2,17 @@ import os
 import re
 from cfg_ut_const import UTMsgType
 
+import logging
+logging.basicConfig(level=logging.DEBUG, format="%(asctime)s %(levelname)s %(filename)s %(funcName)s %(lineno)s %(message)s",
+                    filename='logs/app.log', filemode='w')
+
 currentLine = ''
 
 def parse(line):
     global currentLine 
     currentLine = line
     msgtype = line.split(':')[0]
+    logging.info("MSG TYPE:: %s" % msgtype)
     switch = {
         UTMsgType.InitGame.value: __get_game_info__,
         UTMsgType.Exit.value : __get_game_over__,
@@ -17,6 +22,7 @@ def parse(line):
         UTMsgType.Kill : __get_kill_info__,
         UTMsgType.say : __get_user_msg__,
     }
+    logging.info(UTMsgType[msgtype)
     data = switch.get(UTMsgType[msgtype].value, None)
     data['TYPE'] = UTMsgType[msgtype].value
     return data
