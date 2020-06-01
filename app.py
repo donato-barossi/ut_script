@@ -38,6 +38,7 @@ class App:
             try:
                 for line in self.reader.getNewLines():
                     self.data = self.utLogParse.parse(line)
+                    logging.info(self.data)
                     if self.data:   
                         self.switch.get(self.data['TYPE'], None)
             except OSError:
