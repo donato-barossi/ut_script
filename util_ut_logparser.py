@@ -91,13 +91,13 @@ def __get_user_msg__(line):
 
 def parse(line):
     switch = {
-        int(UTMsgType.InitGame.value) : __get_game_info__,
-        int(UTMsgType.Exit.value) : __get_game_over__,
-        int(UTMsgType.ClientUserinfo): __get_client_info__,
-        int(UTMsgType.ClientDisconnect) : __get_client_disconnected__,
-        int(UTMsgType.Hit): __get_hit_info__,
-        int(UTMsgType.Kill): __get_kill_info__,
-        int(UTMsgType.say): __get_user_msg__,
+        UTMsgType.InitGame.value : __get_game_info__,
+        UTMsgType.Exit.value : __get_game_over__,
+        UTMsgType.ClientUserinfo.value: __get_client_info__,
+        UTMsgType.ClientDisconnect.value : __get_client_disconnected__,
+        UTMsgType.Hit.value: __get_hit_info__,
+        UTMsgType.Kill.value : __get_kill_info__,
+        UTMsgType.say.value : __get_user_msg__,
     }
 
     logging.info(line)
