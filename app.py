@@ -34,6 +34,7 @@ class App:
             for line in self.reader.getNewLines():
                 try:
                     self.data  = utLogParse(line)
+                    print(self.data)
                     self.switch.get(self.data['TYPE'], None)
                 except Exception as e:
                     logging.error("An error occurred while elaborating this line: [%s]" % line)
