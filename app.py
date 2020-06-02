@@ -107,7 +107,7 @@ class App:
         if player and commands.isAuthorized(player, data['CMD']):
             cmd = commands.getUserCommand(data['CMD'])
             if cmd:
-                if cmd == 'gametype' and data['MSG'] in GameType.__dict__:
+                if cmd == 'g_gametype' and data['MSG'] in GameType.__dict__:
                     data['MSG'] = GameType[data['MSG']].value
                 self.__send_cmd__(cmd, data['MSG'])                
             elif data['CMD'] in commands.AppCmds:
