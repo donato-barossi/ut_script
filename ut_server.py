@@ -119,7 +119,7 @@ class UTServer:
 
     def loadMapsFromFile (self, path = cfg.UrtPath + "/" + cfg.MapCyclePath):
         logging.debug("Reading maps file: %s" % path)
-        fileReader = FileReader(path)
+        fileReader = FileReader(path, True)
         maps = fileReader.getNewLines()
         logging.debug("Laded %s maps" % len(maps))
         if maps and len(maps) > 0:
