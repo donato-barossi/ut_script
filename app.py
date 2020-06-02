@@ -105,7 +105,7 @@ class App:
                 self.server.sendCmd(cmd % data['MSG'])
             elif data['CMD'] in commands.AppCmds:
                 self.running = False
-                self.exit_status = commands.AppCmds[data['CMD']].value
+                self.exit_status = commands.AppCmds[data['CMD']]
             else:
                 self.server.sendCmd(data['CMD'] + " " + data['MSG'])
         elif player:
