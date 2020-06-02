@@ -5,8 +5,9 @@ from cfg_ut_const import UTMode
 
 HitMsgs = {
     Body.Butt.value: ["Attento ^1%s^7: ti stanno sparando a culo!"],
-    Body.RightFoot: ["[%s] Balla Spider!"],
-    Body.LeftFoot: ["[%s] Balla Spider!"]
+    Body.Groin.value: ["uuuh.. ^1%s^7 questa fa male.. dritto alle palle!"],
+    Body.RightFoot.value: ["[%s] Balla Spider!"],
+    Body.LeftFoot.value: ["[%s] Balla Spider!"]
 }
 
 KillMsgs = {

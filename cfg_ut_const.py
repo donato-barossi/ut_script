@@ -15,6 +15,7 @@ class Body(enum.Enum):
     RightLowerLeg = 12
     LeftFoot = 13
     RightFoot = 14
+    Groin = 7
 
 
 class GameType(enum.Enum):

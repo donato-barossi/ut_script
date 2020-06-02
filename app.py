@@ -7,6 +7,7 @@ import ut_fun_msg as funMessages
 import ut_cmd as commands
 from util_ut_logparser import parse as utLogParse
 from cfg_ut_const import UTMsgType
+from cfg_ut_const import Body
 from ut_server import UTServer
 
 
@@ -73,13 +74,11 @@ class App:
         self.server.playerDisconnected(data['PLAYER_ID'])
 
     def __update_hit_stats__(self, data):
-        logging.debug('%s hits %s on %s with %s' % (
-            data['SHOOTER'], data['HIT'], data['BODYPART'], data['WEAPON']))
-        hs = self.server.updatePlayerHits(
-            data['SHOOTER'], data['BODYPART'])
-        self.server.sendFunMsg(funMessages.getHitMsg(
-            int(data['BODYPART'])), data['HIT'])
-        self.server.sendFunMsg(funMessages.getHSMsg(hs), data['SHOOTER'])
+        logging.debug('%s hits %s on %s with %s' % (data['SHOOTER'], data['HIT'], data['BODYPART'], data['WEAPON']))
+        hs = self.server.updatePlayerHits(data['SHOOTER'], data['BODYPART'])
+        self.server.sendFunMsg(funMessages.getHitMsg(int(data['BODYPART'])), data['HIT'])
+        if int(data['BODYPART']) in [Body.Head.value, Body.Helmet.value]:
+            self.server.sendFunMsg(funMessages.getHSMsg(hs), data['SHOOTER'])
 
     def __update_kill_stats__(self, data):
         logging.debug('%s kills %s. Mode: %s' % (data['KILLER'], data['DEAD'], data['HOW']))
@@ -94,7 +93,8 @@ class App:
         dead = self.server.getPlayerById(data['DEAD'])
         if dead:
             self.server.sendFunMsg(funMessages.getFunDeadMessage(dead.guid, int(data['HOW'])))
-        self.server.printPlayerStats(data['KILLER'])
+        if data['KILLER'] != data['DEAD']:
+            self.server.printPlayerStats(data['KILLER'])
 
     def __run_user_command__(self, data):
         logging.debug('%s send command %s %s' % (data['PLAYER'], data['CMD'], data['MSG']))
