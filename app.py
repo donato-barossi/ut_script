@@ -54,6 +54,7 @@ class App:
 
     def __init_game__(self, data):
         logging.debug("Removing current map [%s] from map list" % data['MAP'])
+        self.server.resetPlayersStats()
         self.server.removeMap(data['MAP'])
         if len(self.server.maps) == 0:
             self.server.loadMapsFromFile()
