@@ -106,6 +106,8 @@ class App:
             elif data['CMD'] in commands.AppCmds:
                 self.running = False
                 self.exit_status = commands.AppCmds[data['CMD']].value
+            else:
+                self.server.sendCmd(data['CMD'] + " " + data['MSG'])
         elif player:
             self.server.say(commands.NotAuthorizedMsg % player.name)
 
