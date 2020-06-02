@@ -83,13 +83,14 @@ class UTServer:
         return -1
 
     def updatePlayerHits (self, _id, where):
+        where = int(where)
         player = self.getPlayerById(_id)
         if player:
             if player.stats.hits.has_key(where):
                 player.stats.hits[where] += 1
             else:
                 player.stats.hits[where] = 1
-            if int(where) in [Body.Head.value, Body.Helmet.value]:
+            if where in [Body.Head.value, Body.Helmet.value]:
                 player.stats.hs = player.stats.hs +1
             return player.stats.hs
         else:
