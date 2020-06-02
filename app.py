@@ -53,8 +53,7 @@ class App:
         return self.exit_status
 
     def __init_game__(self, data):
-        logging.debug(
-            "Removing current map [%s] from map list" % data['MAP'])
+        logging.debug("Removing current map [%s] from map list" % data['MAP'])
         self.server.removeMap(data['MAP'])
         if len(self.server.maps) == 0:
             self.server.loadMapsFromFile()
@@ -84,9 +83,12 @@ class App:
         logging.debug('%s kills %s. Mode: %s' % (data['KILLER'], data['DEAD'], data['HOW']))
         kills = self.server.updatePlayerKills(data['KILLER'])
         deaths = self.server.updatePlayerDead(data['DEAD'])
-        self.server.sendFunMsg(funMessages.getKillMsg(int(data['HOW'])), data['DEAD'])
-        self.server.sendFunMsg(funMessages.getKillStreakMsg(kills), data['KILLER'])
-        self.server.sendFunMsg(funMessages.getSeriesOfDeadMsg(deaths), data['DEAD'])
+        if self.server.sendFunMsg(funMessages.getKillMsg(int(data['HOW'])), data['DEAD']):
+            time.sleep(cfg.MessageDelay)
+        if self.server.sendFunMsg(funMessages.getKillStreakMsg(kills), data['KILLER']):
+            time.sleep(cfg.MessageDelay)
+        if self.server.sendFunMsg(funMessages.getSeriesOfDeadMsg(deaths), data['DEAD']):
+            time.sleep(cfg.MessageDelay)
         killer = self.server.getPlayerById(data['KILLER'])
         if killer:
             self.server.sendFunMsg(funMessages.getFunKillMessage(killer.guid, int(data['HOW'])), data['DEAD'])

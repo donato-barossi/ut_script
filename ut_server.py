@@ -1,5 +1,4 @@
 import random
-import time
 import logging
 import cfg_server_config as cfg
 from ut_map import UtMap
@@ -33,7 +32,7 @@ class UTServer:
             if Body.Butt.value in player.stats.hits:
                 butt = butt + player.stats.hits[Body.Butt.value]
             hits = sum(player.stats.hits.values())
-            self.socket.say("%s^7 hai messo a segno %s colpi: [%s ^1HS^7 - %s in pieno petto - %s a culo]" % (player.name, hits,  hs, vest, butt))
+            self.socket.console("%s^7 hai messo a segno %s colpi: [%s ^1HS^7 - %s in pieno petto - %s a culo]" % (player.name, hits,  hs, vest, butt))
 
     def tellToUser (self, user, msg):
         if user and isinstance(user, Player) and msg and isinstance(msg, str):
@@ -45,6 +44,7 @@ class UTServer:
 
     def sendCmd (self, cmd):
         if cmd and isinstance(cmd, str):
+            logging.debug("sending command: %s" % cmd)
             self.socket.sendcmd(cmd)
 
     def sendFunMsg(self, msg, _id = None):
@@ -57,7 +57,9 @@ class UTServer:
         elif msg:
             logging.debug("sending big text %s" % msg)
             self.socket.bigText(msg)
-        time.sleep(cfg.MessageDelay)
+        else:
+            return False
+        return True
 
     def getPlayerById(self, _id):
         player = Player(_id)
@@ -116,8 +118,10 @@ class UTServer:
             player.resetStats()
 
     def loadMapsFromFile (self, path = cfg.UrtPath + "/" + cfg.MapCyclePath):
+        logging.debug("Reading maps file: %s" % path)
         fileReader = FileReader(path)
         maps = fileReader.getNewLines()
+        logging.debug("Laded %s maps" % len(maps))
         if maps and len(maps) > 0:
             self.maps = []
             for map in maps:
