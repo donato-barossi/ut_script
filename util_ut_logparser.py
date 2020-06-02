@@ -35,7 +35,7 @@ def __get_game_over__(line):
 
 
 def __get_client_info__(line):
-    regex = r"ClientUserinfo:\ (?P<id>\d+).*name\\(?P<name>[^\\]*)(\\|$).*cl_guid\\(?P<guid>[^\\]*?)(\\|$).*weapmodes\\(?P<wpmode>[^\\]*?)(\\|$)"
+    regex = r"ClientUserinfo:\ (?P<id>\d+).*name\\(?P<name>[^\\]*)(\\|$).*cl_guid\\(?P<guid>[^\\]*?)(\\|$).*(weapmodes\\(?P<wpmode>[^\\]*?)(\\|$))*"
     res = re.search(regex, line)
     data = {}
     if res:
@@ -108,7 +108,8 @@ def parse(line):
             funct = switch.get(int(UTMsgType[msgtype].value), None)
             if funct:
                 data = funct(line)
-                data['TYPE'] = UTMsgType[msgtype].value
+                if data:
+                    data['TYPE'] = UTMsgType[msgtype].value
                 logging.debug(data)
                 return data
 

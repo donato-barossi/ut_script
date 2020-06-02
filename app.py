@@ -61,13 +61,12 @@ class App:
         map = self.server.getRandomMap()
         self.server.socket.nextMap(map)
 
-    def __game_over__(self):
+    def __game_over__(self, data):
         self.server.resetPlayersStats()
 
     def __update_user_info__(self, data):
-        logging.debug('Update user [%s - %s - %s - %s]' % (data['ID'],data['GUID'], data['NAME'], data['WPMODE']))
-        self.server.updatePlayer(
-            data['ID'], data['GUID'], data['NAME'], data['WPMODE'])
+        logging.debug('Update user [%s - %s - %s - %s]' % (data['ID'], data['GUID'], data['NAME'], data['WPMODE']))
+        self.server.updatePlayer(data['ID'], data['GUID'], data['NAME'], data['WPMODE'])
 
     def __user_disconnected__(self, data):
         logging.debug('Player disconnected [%s]' % data['PLAYER_ID'])
@@ -98,8 +97,7 @@ class App:
         self.server.printPlayerStats(data['KILLER'])
 
     def __run_user_command__(self, data):
-        logging.debug('%s send command %s %s' %
-                      (data['PLAYER'], data['CMD'], data['MSG']))
+        logging.debug('%s send command %s %s' % (data['PLAYER'], data['CMD'], data['MSG']))
         player = self.server.getPlayerById(data['PLAYER'])
         if player and commands.isAuthorized(player, data['CMD']):
             cmd = commands.getUserCommand(data['CMD'])

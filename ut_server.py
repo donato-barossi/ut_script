@@ -48,13 +48,14 @@ class UTServer:
             self.socket.sendcmd(cmd)
 
     def sendFunMsg(self, msg, _id = None):
-        logging.debug("sending big text %s %s" % (msg, _id))
         if _id:
+            logging.debug("sending big text %s %s" % (msg, _id))
             player = self.getPlayerById(_id)
             if msg and player:
                 msg = msg % player.name
                 self.socket.bigText(msg)
         elif msg:
+            logging.debug("sending big text %s" % msg)
             self.socket.bigText(msg)
         time.sleep(cfg.MessageDelay)
 
@@ -122,7 +123,9 @@ class UTServer:
                 self.maps.append(UtMap(map))
 
     def removeMap(self, name):
-        self.maps.remove( UtMap(name))
+        map = UtMap(name)
+        if map in self.maps:
+            self.maps.remove()
 
     def getRandomMap(self):
         index = random.randint(0, len(self.maps) -1)
