@@ -8,7 +8,9 @@ import ut_cmd as commands
 from util_ut_logparser import parse as utLogParse
 from cfg_ut_const import UTMsgType
 from cfg_ut_const import Body
+from cfg_ut_const import GameType
 from ut_server import UTServer
+
 
 
 logging.basicConfig(level=logging.DEBUG, format="%(asctime)s %(levelname)s %(filename)s %(funcName)s %(lineno)s %(message)s",
@@ -105,7 +107,9 @@ class App:
         if player and commands.isAuthorized(player, data['CMD']):
             cmd = commands.getUserCommand(data['CMD'])
             if cmd:
-                self.server.sendCmd(cmd % data['MSG'])
+                if cmd == 'gametype' and data['MSG'] in GameType.__dict__:
+                    data['MSG'] = GameType[data['MSG']].value
+                self.__send_cmd__(cmd, data['MSG'])                
             elif data['CMD'] in commands.AppCmds:
                 self.running = False
                 self.exit_status = commands.AppCmds[data['CMD']]
@@ -114,6 +118,16 @@ class App:
         elif player:
             self.server.say(commands.NotAuthorizedMsg % player.name)
 
+    def __send_cmd__ (self, cmd, data):
+        if data:
+            self.server.sendCmd(cmd % data)
+        elif '%s' in cmd:
+            self.server.sendCmd((cmd % '').strip())
+        else:
+            self.server.sendCmd(cmd)
+    
+    def __cycle_map__ (self, cmd, data):
+        self.server.sendCmd(cmd)
 
 def main():
     process = App()

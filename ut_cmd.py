@@ -3,10 +3,10 @@ import enum
 UtCmds = {
    # cmds.allow.value : "",
    # cmds.deny.value : "",
-    'gtype' : "g_gametype %s",
+    'gametype' : "g_gametype %s",
     'map' : "map %s",
     'next' : "g_nextmap %s",
-    'cycle' : "map %s",
+    'cycle' : "cyclemap",
     'private' : "g_password %s",
     'only' : "g_gear %s",
     'all' : "g_gear %s"
