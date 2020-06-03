@@ -1,5 +1,3 @@
-import cfg_server_config as cfg
-
 class UtStats:
     def __init__(self):
         self.hits = {}
@@ -9,13 +7,13 @@ class UtStats:
         self.deathsInRow = 0
 
 class Player:
-    def __init__(self, _id, guid = '', name = '', weapmode = ''):
+    def __init__(self, _id, guid = '', name = '', weapmode = '', isProtected = False):
         self._id = _id
         self.guid = guid
         self.name = name
         self.weapmode = weapmode
         self.stats = UtStats()
-        self.isAdmin = guid in cfg.AdminGuids
+        self.isProtected = isProtected
 
     def resetStats(self):
         self.stats = UtStats()

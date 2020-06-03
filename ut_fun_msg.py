@@ -5,7 +5,7 @@ from cfg_ut_const import UTMode
 
 HitMsgs = {
     Body.Butt.value: ["Attento ^1%s^7: ti stanno sparando a culo!"],
-    Body.Groin.value: ["uuuh.. ^1%s^7 questa fa male.. dritto alle palle!"],
+    Body.Groin.value: ["uuuh.. ^1%s^7 questa fa male.. dritto alle palle!", "^1%s^7 i gioielli di famiglia sono ancora li?"],
     Body.RightFoot.value: ["[%s] Balla Spider!"],
     Body.LeftFoot.value: ["[%s] Balla Spider!"]
 }
@@ -43,12 +43,14 @@ FunnyDeadMessage = {
     # Capopattuglia
     'A17B770E3619E2E1420DD21648ACD7E5': {
         UTMode.UT_MOD_KNIFE.value: [
-            "Il ^1maiale^7 e' stato scannato"
+            "Il ^1maiale^7 e' stato scannato!",
+            "Un ^1maiale^7 e' stato macellato!"
         ]},
     # giogio79
     'D94814531BDCFD66595CC834F6EC5F87': {
         UTMode.UT_MOD_KNIFE.value: [
-            "Spennata la ^1quaglia^7!!"
+            "Spennata la ^1quaglia^7!!",
+            "Era una ^1quaglia^7 zoppa.. troppo facile!"
         ]},
 }
 
@@ -56,8 +58,9 @@ FunnyKillMessage = {
     # Capopattuglia
     'A17B770E3619E2E1420DD21648ACD7E5': {
         UTMode.UT_MOD_KNIFE.value: [
-            "La vendetta del maiale si e' abbattuta su %s",
-            "E il maiale colpisce ancora (%s che finaccia!)"
+            "La vendetta del maiale si e' abbattuta su ^1%s",
+            "E il maiale colpisce ancora (^1%s^7 che finaccia!)",
+            "^1%s^7 attento! Questo maialetto e' proprio vendicativo"
         ]}
 }
 

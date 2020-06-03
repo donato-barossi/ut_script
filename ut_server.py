@@ -1,5 +1,6 @@
 import random
 import logging
+import re
 import cfg_server_config as cfg
 from ut_map import UtMap
 from ut_player import Player
@@ -41,7 +42,7 @@ class UTServer:
     def say (self, msg):
         if msg and isinstance(msg, str):
             self.socket.say(msg)
-
+    
     def sendCmd (self, cmd):
         if cmd and isinstance(cmd, str):
             logging.debug("sending command: %s" % cmd)
@@ -67,6 +68,14 @@ class UTServer:
             return self.players[self.players.index(player)]
         else:
             return None
+
+    def getPlayerByName(self, name):
+        if name:
+            for player in self.players:
+                _name = re.sub(r'\^\d', '', player.name)
+                if _name == name:
+                    return player
+        return None
 
     def updatePlayerKills (self, _id):
         player = self.getPlayerById(_id)
@@ -98,8 +107,8 @@ class UTServer:
         else:
             return -1
 
-    def updatePlayer(self, _id, guid, name, weapmode):
-        p = Player(_id, guid, name, weapmode)
+    def updatePlayer(self, _id, guid, name, weapmode, isProtected):
+        p = Player(_id, guid, name, weapmode, isProtected)
         if p in self.players:
             p = self.players[self.players.index(p)]
             p.guid = guid

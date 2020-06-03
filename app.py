@@ -69,7 +69,7 @@ class App:
 
     def __update_user_info__(self, data):
         logging.debug('Update user [%s - %s - %s - %s]' % (data['ID'], data['GUID'], data['NAME'], data['WPMODE']))
-        self.server.updatePlayer(data['ID'], data['GUID'], data['NAME'], data['WPMODE'])
+        self.server.updatePlayer(data['ID'], data['GUID'], data['NAME'], data['WPMODE'], data['GUID'] in commands.ProtectedPlayers)
 
     def __user_disconnected__(self, data):
         logging.debug('Player disconnected [%s]' % data['PLAYER_ID'])
@@ -104,19 +104,43 @@ class App:
     def __run_user_command__(self, data):
         logging.debug('%s send command %s %s' % (data['PLAYER'], data['CMD'], data['MSG']))
         player = self.server.getPlayerById(data['PLAYER'])
+        
         if player and commands.isAuthorized(player, data['CMD']):
-            cmd = commands.getUserCommand(data['CMD'])
+            cmd = commands.getServerCommand(data['CMD'])
+            # commands to manage server
             if cmd:
                 if cmd == 'g_gametype' and data['MSG'] in GameType.__dict__:
                     data['MSG'] = GameType[data['MSG']].value
-                self.__send_cmd__(cmd, data['MSG'])                
+                self.__send_cmd__(cmd, data['MSG'])  
+            # custom commands like protect, allow, deny
+            elif data['CMD']  in commands.CustomComds:
+                self.__exec_custom_command__(data['CMD'], data['MSG'])
+            # commands to manage the app like stop, restart ...
             elif data['CMD'] in commands.AppCmds:
                 self.running = False
                 self.exit_status = commands.AppCmds[data['CMD']]
+            # all other commands
             else:
-                self.server.sendCmd(data['CMD'] + " " + data['MSG'])
+                target = self.server.getPlayerByName(data['MSG'])
+                if target and target.isProtected:                   
+                    self.server.sendFunMsg(commands.getProtectedPlayersMsg(), target._id)
+                else:
+                    self.server.sendCmd(data['CMD'] + " " + data['MSG'])
         elif player:
-            self.server.say(commands.NotAuthorizedMsg % player.name)
+            self.server.say(commands.getNotAuthorizedMsg() % player.name)
+
+    def __exec_custom_command__ (self, cmd, data):
+        if cmd == 'protection':
+            data = data.split(' ')
+            if len(data) == 2:
+                target = self.server.getPlayerByName(data[1])
+                if target and data[0] == 'on':
+                    logging.debug('Adding protection to %s' % target.name)
+                    target.isProtected = True
+                elif target and data[0] == 'off':
+                    logging.debug('Removing protection to %s' % target.name)
+                    target.isProtected = False
+
 
     def __send_cmd__ (self, cmd, data):
         if data:

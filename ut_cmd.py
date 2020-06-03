@@ -1,8 +1,7 @@
 import enum
+import random
 
 UtCmds = {
-   # cmds.allow.value : "",
-   # cmds.deny.value : "",
     'gametype' : "g_gametype %s",
     'map' : "map %s",
     'next' : "g_nextmap %s",
@@ -19,6 +18,8 @@ AppCmds = {
     'resume' : 3
 }
 
+CustomComds = ['allow', 'deny', 'protection' ]
+
 Auth = {
     'BF75A818B7749C51A991EB4EF4CB71DB' : ['gtype', 'map', 'next', 'cycle', 'private', 'only', 'all', 'allow', 'deny', 'kick', 'slap', 'smite', 'nuke', 'timelimit'], # Dr.Geo
     'B44CA4A27A31FA0234CAA62E4F5EC67B' : ['gtype', 'map', 'next', 'cycle', 'private', 'only', 'all', 'allow', 'deny', 'kick', 'slap', 'smite', 'nuke', 'timelimit'], # g1n8
@@ -30,7 +31,15 @@ Auth = {
     '6F80784BD6672C739E8DFE010F3D063B' : ['*']  # dr.barossi
 }
 
-NotAuthorizedMsg = "%s non sei autorizzato: ^1AH AH^7!"
+ProtectedPlayers = ["6F80784BD6672C739E8DFE010F3D063B"]
+ProtectedPlayersMsgs = ["%s^7 e' sotto la protezione divina!", "Non vi azzardate a toccare %s^7!"]
+NotAuthorizedMsgs = ["%s non sei autorizzato: ^1AH AH^7!", "Sfigato, questo comando non e' per te, %s"]
+
+def getProtectedPlayersMsg():
+    return ProtectedPlayersMsgs[random.randint(0, len(ProtectedPlayersMsgs)-1)]
+
+def getNotAuthorizedMsg():
+    return NotAuthorizedMsgs[random.randint(0, len(NotAuthorizedMsgs)-1)]
 
 def isAuthorized (palyer, cmd):
     if palyer.guid in Auth:
@@ -39,7 +48,7 @@ def isAuthorized (palyer, cmd):
             return True
     return False
 
-def getUserCommand (cmd):
+def getServerCommand (cmd):
     if cmd in UtCmds:
         return UtCmds[cmd]
     return None
