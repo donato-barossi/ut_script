@@ -139,7 +139,7 @@ class UTServer:
     def removeMap(self, name):
         map = UtMap(name)
         if map in self.maps:
-            self.maps.remove()
+            self.maps.remove(map)
 
     def getRandomMap(self):
         index = random.randint(0, len(self.maps) -1)
