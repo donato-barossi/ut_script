@@ -8,7 +8,7 @@ BaseCfgPath = "barossi-server.cfg"
 ServerIp = '127.0.0.1'
 ServerPort = 27960
 ServerTimeout = 2
-MessageDelay = 0.5
+MessageDelay = 0.25
 
 # Admin config
 ServerRcon = "01Barossi"
@@ -22,4 +22,4 @@ AdminGuids = ["6F80784BD6672C739E8DFE010F3D063B",
 
 # Script config
 LogPath = "logs/app.log"
-TSleep = 0.75               # Timeout between two iteractions 
+TSleep = 1            # Timeout between two iteractions 
