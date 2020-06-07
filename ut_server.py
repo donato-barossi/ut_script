@@ -73,7 +73,7 @@ class UTServer:
         if name:
             for player in self.players:
                 _name = re.sub(r'\^\d', '', player.name)
-                if _name == name:
+                if _name == name or _name.startswith('name'):
                     return player
         return None
 
