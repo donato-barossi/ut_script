@@ -20,23 +20,23 @@ KillMsgs = {
 }
 
 KillStreakMsgs = {
-    5: ["%s ha fatto ^15^7 kills di fila: FERMATELO!"],
-    10: ["%s ... Rambo in action!! ^110^7 kills di fila!"],
-    15: ["%s e sono ^115^7... Il Chuck Norris di oggi!"]
+    5: ["%s^7 ha fatto ^15^7 kills di fila: FERMATELO!", "^15^7 kills senza schiattare, %s^7 ma sei un killer!"],
+    10: ["%s^7 ... Rambo in action!! ^110^7 kills di fila!"],
+    15: ["%s^7 e sono ^115^7... Il Chuck Norris di giornata!"]
 }
 
 SeriesOfDeadMsgs = {
-    3: ["%s sei morto 3 volte di fila ... ti spiego come si gioca?"],
-    5: ["%s siamo gia' a 5... forse e' meglio se ti dai all'ippica!"]
+    3: ["%s^7 sei morto 3 volte di fila ... ti spiego come si gioca?"],
+    5: ["%s^7 siamo gia' a 5... forse e' meglio se ti dai all'ippica!"]
 }
 
 HeadShotsMsgs = {
     5: ["%s ^15^7 headshots .. puoi fare di meglio!"],
-    10: ["%s ^110^7 headshots .. continua cosi' campione!"],
-    15: ["%s hulala!! ^115^7 headshots!"],
-    20: ["%s che precisione: ^120^7 headshots!"],
-    25: ["%s e' in forma: ^125^7 headshots!"],
-    30: ["%s un cecchino nato: ^130^7 headshots!"]
+    10: ["%s^7 ^110^7 headshots .. continua cosi' campione!"],
+    15: ["%s^7 hulala!! ^115^7 headshots!"],
+    20: ["%s^7 che precisione: ^120^7 headshots!"],
+    25: ["%s^7 e' in forma: ^125^7 headshots!"],
+    30: ["%s^7 un cecchino nato: ^130^7 headshots!"]
 }
 
 FunnyDeadMessage = {
@@ -60,7 +60,7 @@ FunnyKillMessage = {
         UTMode.UT_MOD_KNIFE.value: [
             "La vendetta del maiale si e' abbattuta su ^1%s",
             "E il maiale colpisce ancora (^1%s^7 che finaccia!)",
-            "^1%s^7 attento! Questo maialetto e' proprio vendicativo"
+            "^1%s^7 attento! Questo maiale e' proprio vendicativo"
         ]}
 }
 
