@@ -6,11 +6,12 @@ from ut_map import UtMap
 from ut_player import Player
 from util_file_reader import FileReader
 from util_ut_socket import Sock
-from cfg_ut_const import Body 
+from cfg_ut_const import Body
 
 
+logging.basicConfig(level=logging.DEBUG, format="%(asctime)s %(levelname)s %(filename)s %(funcName)s %(lineno)s %(message)s",
+                    filename='logs/app.log', filemode='w')
 
-logging.basicConfig(level=logging.DEBUG, format="%(asctime)s %(levelname)s %(filename)s %(funcName)s %(lineno)s %(message)s", filename='logs/app.log', filemode='w')
 
 class UTServer:
     def __init__(self):
@@ -19,8 +20,8 @@ class UTServer:
         self.maps = []
         self.admins = []
         self.loadMapsFromFile()
-        
-    def printPlayerStats (self, _id):
+
+    def printPlayerStats(self, _id):
         player = self.getPlayerById(_id)
         if player:
             hs = player.stats.hs
@@ -33,22 +34,23 @@ class UTServer:
             if Body.Butt.value in player.stats.hits:
                 butt = butt + player.stats.hits[Body.Butt.value]
             hits = sum(player.stats.hits.values())
-            self.socket.console("%s^7 hai messo a segno %s colpi: [%s ^1HS^7 - %s in pieno petto - %s a culo]" % (player.name, hits,  hs, vest, butt))
+            self.socket.console(
+                "%s^7 hai messo a segno %s colpi: [%s ^1HS^7 - %s in pieno petto - %s a culo]" % (player.name, hits,  hs, vest, butt))
 
-    def tellToUser (self, user, msg):
+    def tellToUser(self, user, msg):
         if user and isinstance(user, Player) and msg and isinstance(msg, str):
             self.socket.tell(user.name, msg)
 
-    def say (self, msg):
+    def say(self, msg):
         if msg and isinstance(msg, str):
             self.socket.say(msg)
-    
-    def sendCmd (self, cmd):
+
+    def sendCmd(self, cmd):
         if cmd and isinstance(cmd, str):
             logging.debug("sending command: %s" % cmd)
             self.socket.sendcmd(cmd)
 
-    def sendFunMsg(self, msg, _id = None):
+    def sendFunMsg(self, msg, _id=None):
         if _id:
             logging.debug("sending big text %s %s" % (msg, _id))
             player = self.getPlayerById(_id)
@@ -70,30 +72,38 @@ class UTServer:
             return None
 
     def getPlayerByName(self, name):
+        count = 0
+        _player = None
         if name:
+            pattern = re.compile(r'%s' % name)
             for player in self.players:
                 _name = re.sub(r'\^\d', '', player.name)
-                if _name == name or _name.startswith('name'):
-                    return player
-        return None
+                # _name == name or _name.startswith('name'):
+                if pattern.match(_name):
+                    _player = player
+                    count = count + 1
+        if count == 1:
+            return _player
+        else:
+            return None
 
-    def updatePlayerKills (self, _id):
+    def updatePlayerKills(self, _id):
         player = self.getPlayerById(_id)
-        if player: 
-            player.stats.killsInRow = player.stats.killsInRow +1
+        if player:
+            player.stats.killsInRow = player.stats.killsInRow + 1
             player.stats.deathsInRow = 0
             return player.stats.killsInRow
         return -1
 
-    def updatePlayerDead (self, _id):
+    def updatePlayerDead(self, _id):
         player = self.getPlayerById(_id)
-        if player: 
-            player.stats.deathsInRow = player.stats.deathsInRow +1
+        if player:
+            player.stats.deathsInRow = player.stats.deathsInRow + 1
             player.stats.killsInRow = 0
             return player.stats.deathsInRow
         return -1
 
-    def updatePlayerHits (self, _id, where):
+    def updatePlayerHits(self, _id, where):
         where = int(where)
         player = self.getPlayerById(_id)
         if player:
@@ -102,7 +112,7 @@ class UTServer:
             else:
                 player.stats.hits[where] = 1
             if where in [Body.Head.value, Body.Helmet.value]:
-                player.stats.hs = player.stats.hs +1
+                player.stats.hs = player.stats.hs + 1
             return player.stats.hs
         else:
             return -1
@@ -116,8 +126,8 @@ class UTServer:
             p.weapmode = weapmode
         else:
             self.players.append(p)
-    
-    def playerDisconnected (self, _id):
+
+    def playerDisconnected(self, _id):
         p = Player(_id)
         if p in self.players:
             self.players.remove(p)
@@ -126,7 +136,7 @@ class UTServer:
         for player in self.players:
             player.resetStats()
 
-    def loadMapsFromFile (self, path = cfg.UrtPath + "/" + cfg.MapCyclePath):
+    def loadMapsFromFile(self, path=cfg.UrtPath + "/" + cfg.MapCyclePath):
         logging.debug("Reading maps file: %s" % path)
         fileReader = FileReader(path, True)
         maps = fileReader.getNewLines()
@@ -142,5 +152,5 @@ class UTServer:
             self.maps.remove(map)
 
     def getRandomMap(self):
-        index = random.randint(0, len(self.maps) -1)
+        index = random.randint(0, len(self.maps) - 1)
         return self.maps[index]

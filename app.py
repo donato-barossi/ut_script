@@ -124,6 +124,8 @@ class App:
                 target = self.server.getPlayerByName(data['MSG'])
                 if target and target.isProtected:                   
                     self.server.sendFunMsg(commands.getProtectedPlayersMsg(), target._id)
+                elif target:
+                    self.server.sendCmd(data['CMD'] + " " + target.name)
                 else:
                     self.server.sendCmd(data['CMD'] + " " + data['MSG'])
         elif player:
