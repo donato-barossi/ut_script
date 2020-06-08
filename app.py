@@ -32,6 +32,7 @@ class App:
             UTMsgType.say.value: self.__run_user_command__,
         }
         self.exit_status = 0
+        self.blockedPlayers = [] 
         self.server.say("Funny script initialized!")
 
     def run(self):
@@ -105,7 +106,7 @@ class App:
         logging.debug('%s send command %s %s' % (data['PLAYER'], data['CMD'], data['MSG']))
         player = self.server.getPlayerById(data['PLAYER'])
         
-        if player and commands.isAuthorized(player, data['CMD']):
+        if player and commands.isAuthorized(player, data['CMD']) and player.guid not in self.blockedPlayers:
             cmd = commands.getServerCommand(data['CMD'])
             # commands to manage server
             if cmd:
@@ -142,6 +143,19 @@ class App:
                 elif target and data[0] == 'off':
                     logging.debug('Removing protection to %s' % target.name)
                     target.isProtected = False
+        elif cmd == 'deny' or cmd == 'block':
+            target = self.server.getPlayerByName(data)
+            if target:
+                logging.debug('Deny %s' % target.name)
+                if target.guid not in self.blockedPlayers:
+                    self.blockedPlayers.append(target.guid)
+        elif cmd == 'allow':
+            target = self.server.getPlayerByName(data)
+            if target:
+                logging.debug('Allow %s' % target.name)
+                if target.guid in self.blockedPlayers:
+                    self.blockedPlayers.remove(target.guid)
+
 
 
     def __send_cmd__ (self, cmd, data):
