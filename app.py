@@ -115,7 +115,7 @@ class App:
                 self.__send_cmd__(cmd, data['MSG'])  
             # custom commands like protect, allow, deny
             elif data['CMD']  in commands.CustomComds:
-                self.__exec_custom_command__(data['CMD'], data['MSG'])
+                self.__exec_custom_command__(player, data['CMD'], data['MSG'])
             # commands to manage the app like stop, restart ...
             elif data['CMD'] in commands.AppCmds:
                 self.running = False
@@ -132,7 +132,7 @@ class App:
         elif player:
             self.server.say(commands.getNotAuthorizedMsg() % player.name)
 
-    def __exec_custom_command__ (self, cmd, data):
+    def __exec_custom_command__ (self, player, cmd, data):
         if cmd == 'protection':
             data = data.split(' ')
             if len(data) == 2:
@@ -155,7 +155,17 @@ class App:
                 logging.debug('Allow %s' % target.name)
                 if target.guid in self.blockedPlayers:
                     self.blockedPlayers.remove(target.guid)
-
+        elif cmd == 'kill':
+            target = self.server.getPlayerByName(data)
+            if target and not target.isProtected:
+                logging.debug('Kill %s' % target.name)
+                self.server.sendCmd("smite " + target.name)
+            elif data == 'all':
+                logging.debug('Kill all players')
+                for user in self.server.players:
+                    if user != player:
+                        logging.debug('Kill %s' % target.name)
+                        self.server.sendCmd("smite " + target.name)
 
 
     def __send_cmd__ (self, cmd, data):
