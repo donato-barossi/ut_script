@@ -18,7 +18,7 @@ AppCmds = {
     'resume' : 3
 }
 
-CustomComds = ['allow', 'deny', 'protection' ]
+CustomComds = ['allow', 'deny', 'protection', 'kill' ]
 
 Auth = {
     'BF75A818B7749C51A991EB4EF4CB71DB' : ['gtype', 'map', 'next', 'cycle', 'private', 'only', 'all', 'allow', 'deny', 'kick', 'slap', 'smite', 'nuke', 'timelimit'], # Dr.Geo
