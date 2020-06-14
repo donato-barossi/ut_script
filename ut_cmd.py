@@ -2,7 +2,7 @@ import enum
 import random
 
 UtCmds = {
-    'gametype' : "g_gametype %s",
+    'gametype' : "g_gametype %s; reload",
     'map' : "map %s",
     'next' : "g_nextmap %s",
     'cycle' : "cyclemap",
