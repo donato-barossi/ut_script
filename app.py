@@ -164,8 +164,8 @@ class App:
                 logging.debug('Kill all players')
                 for user in self.server.players:
                     if user != player:
-                        logging.debug('Kill %s' % target.name)
-                        self.server.sendCmd("smite " + target.name)
+                        logging.debug('Kill %s' % user.name)
+                        self.server.sendCmd("smite " + user.name)
 
 
     def __send_cmd__ (self, cmd, data):
