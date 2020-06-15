@@ -10,7 +10,7 @@ logging.basicConfig(level=logging.DEBUG, format="%(asctime)s %(levelname)s %(fil
 
 
 def __get_cmd_type__(line):
-    regex = r"\d+\:\d+\ (?P<cmdtype>[a-zA-Z]+)"
+    regex = r"\d+\:\d+(\ )*(?P<cmdtype>[a-zA-Z]+)"
     res = re.search(regex, line)
     if res:
         return res.group('cmdtype')
