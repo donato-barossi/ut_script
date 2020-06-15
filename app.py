@@ -110,7 +110,7 @@ class App:
             cmd = commands.getServerCommand(data['CMD'])
             # commands to manage server
             if cmd:
-                if cmd == 'g_gametype' and data['MSG'] in GameType.__dict__:
+                if cmd.startswith('g_gametype') and data['MSG'] in GameType.__dict__:
                     data['MSG'] = GameType[data['MSG']].value
                 self.__send_cmd__(cmd, data['MSG'])  
             # custom commands like protect, allow, deny
