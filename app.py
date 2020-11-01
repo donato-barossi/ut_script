@@ -166,6 +166,7 @@ class App:
                     if user != player:
                         logging.debug('Kill %s' % user.name)
                         self.server.sendCmd("smite " + user.name)
+                        time.sleep(cfg.MessageDelay)
 
 
     def __send_cmd__ (self, cmd, data):
