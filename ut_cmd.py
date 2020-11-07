@@ -20,16 +20,16 @@ AppCmds = {
     'resume' : 3
 }
 
-CustomComds = ['allow', 'deny', 'protection', 'kill' ]
+CustomComds = ['allow', 'deny', 'protection', 'kill', 'maplist' ]
 
 Auth = {
-    'BF75A818B7749C51A991EB4EF4CB71DB' : ['gtype', 'map', 'next', 'cycle', 'private', 'only', 'all', 'allow', 'deny', 'kick', 'slap', 'smite', 'nuke', 'timelimit', 'julianka', 'alexa'], # Dr.Geo
-    'B44CA4A27A31FA0234CAA62E4F5EC67B' : ['gtype', 'map', 'next', 'cycle', 'private', 'only', 'all', 'allow', 'deny', 'kick', 'slap', 'smite', 'nuke', 'timelimit', 'julianka', 'alexa'], # g1n8
-    'C9F3DCA4B00F1EA9FA6A17E00642AC52' : ['gtype', 'map', 'next', 'cycle', 'private', 'only', 'all', 'allow', 'deny', 'kick', 'slap', 'smite', 'nuke', 'timelimit', 'julianka', 'alexa'], # GJterror
-    'A17B770E3619E2E1420DD21648ACD7E5' : ['gtype', 'map', 'next', 'cycle', 'private', 'only', 'all', 'allow', 'deny', 'kick', 'slap', 'smite', 'nuke', 'timelimit', 'julianka', 'alexa'], # Capopattuglia
-    'ABA582DE5E260E4C9C73D49CD66CBDDE' : ['gtype', 'map', 'next', 'cycle', 'private', 'only', 'all', 'allow', 'deny', 'kick', 'slap', 'smite', 'nuke', 'timelimit', 'julianka', 'alexa'], # REVENGE
-    '7012BEC27E05320119AF799B962C3A97' : ['gtype', 'map', 'next', 'cycle', 'private', 'only', 'all', 'allow', 'deny', 'kick', 'slap', 'smite', 'nuke', 'timelimit', 'julianka', 'alexa'], # Maverick
-    'D94814531BDCFD66595CC834F6EC5F87' : ['gtype', 'map', 'next', 'cycle', 'private', 'only', 'all', 'allow', 'deny', 'kick', 'slap', 'smite', 'nuke', 'timelimit', 'julianka', 'alexa'], # giogio79
+    'BF75A818B7749C51A991EB4EF4CB71DB' : ['gtype', 'map', 'next', 'cycle', 'private', 'only', 'all', 'allow', 'deny', 'kick', 'slap', 'smite', 'nuke', 'timelimit', 'julianka', 'alexa', 'maplist'], # Dr.Geo
+    'B44CA4A27A31FA0234CAA62E4F5EC67B' : ['gtype', 'map', 'next', 'cycle', 'private', 'only', 'all', 'allow', 'deny', 'kick', 'slap', 'smite', 'nuke', 'timelimit', 'julianka', 'alexa', 'maplist'], # g1n8
+    'C9F3DCA4B00F1EA9FA6A17E00642AC52' : ['gtype', 'map', 'next', 'cycle', 'private', 'only', 'all', 'allow', 'deny', 'kick', 'slap', 'smite', 'nuke', 'timelimit', 'julianka', 'alexa', 'maplist'], # GJterror
+    'A17B770E3619E2E1420DD21648ACD7E5' : ['gtype', 'map', 'next', 'cycle', 'private', 'only', 'all', 'allow', 'deny', 'kick', 'slap', 'smite', 'nuke', 'timelimit', 'julianka', 'alexa', 'maplist' ], # Capopattuglia
+    'ABA582DE5E260E4C9C73D49CD66CBDDE' : ['gtype', 'map', 'next', 'cycle', 'private', 'only', 'all', 'allow', 'deny', 'kick', 'slap', 'smite', 'nuke', 'timelimit', 'julianka', 'alexa', 'maplist'], # REVENGE
+    '7012BEC27E05320119AF799B962C3A97' : ['gtype', 'map', 'next', 'cycle', 'private', 'only', 'all', 'allow', 'deny', 'kick', 'slap', 'smite', 'nuke', 'timelimit', 'julianka', 'alexa', 'maplist'], # Maverick
+    'D94814531BDCFD66595CC834F6EC5F87' : ['gtype', 'map', 'next', 'cycle', 'private', 'only', 'all', 'allow', 'deny', 'kick', 'slap', 'smite', 'nuke', 'timelimit', 'julianka', 'alexa', 'maplist'], # giogio79
     '6F80784BD6672C739E8DFE010F3D063B' : ['*']  # dr.barossi
 }
 

@@ -21,6 +21,10 @@ class UTServer:
         self.admins = []
         self.loadMapsFromFile()
 
+    def printAllStats (self):
+        for player in self.players:
+            self.printPlayerStats(player._id)
+
     def printPlayerStats(self, _id):
         player = self.getPlayerById(_id)
         if player:

@@ -61,11 +61,12 @@ class App:
         self.server.removeMap(data['MAP'])
         if len(self.server.maps) == 0:
             self.server.loadMapsFromFile()
-        time.sleep(15)
+        time.sleep(12)
         map = self.server.getRandomMap()
         self.server.socket.nextMap(map)
 
     def __game_over__(self, data):
+        self.server.printAllStats()
         self.server.resetPlayersStats()
 
     def __update_user_info__(self, data):
@@ -167,6 +168,11 @@ class App:
                         logging.debug('Kill %s' % user.name)
                         self.server.sendCmd("smite " + user.name)
                         time.sleep(cfg.MessageDelay)
+        elif cmd == 'maplist':
+            if data == 'reset':
+                self.server.loadMapsFromFile()
+            else:
+                self.server.loadMapsFromFile('data/' + data + '.txt')
 
 
     def __send_cmd__ (self, cmd, data):
