@@ -40,14 +40,14 @@ class UTMode(enum.Enum):
     UT_MOD_LR300 = 8
     UT_MOD_G36 = 20
     UT_MOD_PSG1 = 10
-    UT_MOD_HEGRENADE = 11
+    UT_MOD_HEGRENADE = 25
     UT_MOD_SR8 = 14
     UT_MOD_AK103 = 15
     UT_MOD_NEGEV = 36
     UT_MOD_M4 = 19
     UT_MOD_GLOCK = 39
     UT_MOD_MAC11 = 41
-    UT_MOD_P90 = 25
+    UT_MOD_P90 = 44
     UT_MOD_HK69 = 22
     UT_MOD_NUKED = 35
     UT_MOD_BLED = 23
