@@ -35,7 +35,7 @@ def __get_game_over__(line):
 
 
 def __get_client_info__(line):
-    regex = r"ClientUserinfo:\ (?P<id>\d+).*name\\(?P<name>[^\\]*)(\\|$).*cl_guid\\(?P<guid>[^\\]*?)(\\|$).*(weapmodes\\(?P<wpmode>[^\\]*?)(\\|$))*"
+    regex = r"ClientUserinfo:\ (?P<id>\d+).*name\\(?P<name>[^\\]*)(\\|$).*(gear\\(?P<gear>[^\\]*?)(\\|$)).*cl_guid\\(?P<guid>[^\\]*?)(\\|$).*(weapmodes\\(?P<wpmode>[^\\]*?)(\\|$)).*"
     res = re.search(regex, line)
     data = {}
     if res:
@@ -43,6 +43,7 @@ def __get_client_info__(line):
         data['NAME'] = res.group('name')
         data['GUID'] = res.group('guid')
         data['WPMODE'] = res.group('wpmode')
+        data['GEAR'] = res.group('gear')
     return data
 
 

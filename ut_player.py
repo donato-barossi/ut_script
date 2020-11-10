@@ -7,10 +7,11 @@ class UtStats:
         self.deathsInRow = 0
 
 class Player:
-    def __init__(self, _id, guid = '', name = '', weapmode = '', isProtected = False):
+    def __init__(self, _id, guid = '', name = '', weapmode = '', gear = '', isProtected = False):
         self._id = _id
         self.guid = guid
         self.name = name
+        self.gear = gear
         self.weapmode = weapmode
         self.stats = UtStats()
         self.isProtected = isProtected

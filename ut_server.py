@@ -1,10 +1,12 @@
 import random
 import logging
 import re
+import os
 import cfg_server_config as cfg
 from ut_map import UtMap
 from ut_player import Player
 from util_file_reader import FileReader
+from util_file_reader import FileWriter
 from util_ut_socket import Sock
 from cfg_ut_const import Body
 
@@ -19,6 +21,7 @@ class UTServer:
         self.players = []
         self.maps = []
         self.admins = []
+        self.banned = []
         self.loadMapsFromFile()
 
     def printAllStats (self):
@@ -121,15 +124,20 @@ class UTServer:
         else:
             return -1
 
-    def updatePlayer(self, _id, guid, name, weapmode, isProtected):
-        p = Player(_id, guid, name, weapmode, isProtected)
-        if p in self.players:
-            p = self.players[self.players.index(p)]
-            p.guid = guid
-            p.name = name
-            p.weapmode = weapmode
+    def updatePlayer(self, _id, guid, name, weapmode, gear, isProtected):
+        if guid in self.banned:
+            logging.debug("Palyer %s is banned. Kicking him." % name)
+            self.socket.sendcmd("kick " + name)
         else:
-            self.players.append(p)
+            p = Player(_id, guid, name, weapmode, gear, isProtected)
+            if p in self.players:
+                p = self.players[self.players.index(p)]
+                p.guid = guid
+                p.name = name
+                p.weapmode = weapmode
+                p.gear = gear
+            else:
+                self.players.append(p)
 
     def playerDisconnected(self, _id):
         p = Player(_id)
@@ -158,3 +166,14 @@ class UTServer:
     def getRandomMap(self):
         index = random.randint(0, len(self.maps) - 1)
         return self.maps[index]
+
+    def loadBannedPlayer (self):
+        reader = FileReader("data/banlist.txt", True)
+        for line in reader.getNewLines():
+            self.banned.append(line)
+
+    def banPlayer (self, player):
+        writer  = FileWriter("data/banlist.txt")
+        writer.writeNewLine(player.guid)
+        self.banned.append(player.guid)
+        

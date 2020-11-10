@@ -1,6 +1,7 @@
 import random
 from cfg_ut_const import Body
 from cfg_ut_const import UTMode
+from cfg_ut_const import UTGearItems
 
 
 HitMsgs = {
@@ -44,14 +45,21 @@ FunnyDeadMessage = {
     'A17B770E3619E2E1420DD21648ACD7E5': {
         UTMode.UT_MOD_KNIFE.value: [
             "Il ^1maiale^7 e' stato scannato!",
-            "Un ^1maiale^7 e' stato macellato!"
+            "Un ^1maiale^7 e' stato macellato!",
+            "Accendete la brace, le costolette sono pronte!"
         ]},
     # giogio79
     'D94814531BDCFD66595CC834F6EC5F87': {
         UTMode.UT_MOD_KNIFE.value: [
             "Spennata la ^1quaglia^7!!",
-            "Era una ^1quaglia^7 zoppa.. troppo facile!"
+            "Era una ^1quaglia^7 zoppa.. troppo facile!",
+            "Piu' che una quaglia sembrava una ^1gallina^7!!"
         ]},
+    # g1n8
+    'B44CA4A27A31FA0234CAA62E4F5EC67B' : {
+        UTMode.UT_MOD_HEGRENADE: [
+            "Caccia grossia al ^1cinghiale^7!!"
+        ]}
 }
 
 FunnyKillMessage = {
@@ -63,6 +71,24 @@ FunnyKillMessage = {
             "^1%s^7 attento! Questo maiale e' proprio vendicativo"
         ]}
 }
+
+def getFunGearMessage (guid, gear):
+    #Tactical Goggles	
+    if gear.__contains__("S") == True:
+        return "%s, solo i froci portano gli occhialini!"
+    #Kevlar Vest
+    if gear.__contains__("R") == False:
+        return "%s a petto nudo.. Ti senti forte!"
+    #Helmet
+    if gear.__contains__("W") == False:
+        return "%s senza elmetto.. Ti senti fortunato!"
+    #Smoke Grenade
+    if gear.__contains__("Q") == True:
+        return "%s, a chi vo roppe' li coglioni co ste fumogene?"
+    #IMI Negev
+    if gear.__contains__("c") == True:
+        return "%s, hai preso un arma di fino!!"
+
 
 def getFunKillMessage(guid, mode):
     if guid in FunnyKillMessage and mode in FunnyKillMessage[guid]:

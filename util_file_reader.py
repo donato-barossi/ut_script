@@ -20,3 +20,13 @@ class FileReader :
         elif os.path.getsize(self.path) < self.readsize:
             self.readsize = os.path.getsize(self.path)
         return newlines
+
+
+class FileWriter :
+    def __init__(self, path):
+        self.path = path
+
+    def writeNewLine(self, line):
+        _file = open(self.path, "a")
+        _file.write(line)
+        _file.close()

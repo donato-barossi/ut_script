@@ -71,7 +71,8 @@ class App:
 
     def __update_user_info__(self, data):
         logging.debug('Update user [%s - %s - %s - %s]' % (data['ID'], data['GUID'], data['NAME'], data['WPMODE']))
-        self.server.updatePlayer(data['ID'], data['GUID'], data['NAME'], data['WPMODE'], data['GUID'] in commands.ProtectedPlayers)
+        self.server.updatePlayer(data['ID'], data['GUID'], data['NAME'], data['WPMODE'], data['GEAR'], data['GUID'] in commands.ProtectedPlayers)
+        self.server.sendFunMsg(funMessages.getFunGearMessage(data['GEAR']), data['NAME'])
 
     def __user_disconnected__(self, data):
         logging.debug('Player disconnected [%s]' % data['PLAYER_ID'])
@@ -173,7 +174,10 @@ class App:
                 self.server.loadMapsFromFile()
             else:
                 self.server.loadMapsFromFile('data/' + data + '.txt')
-
+        elif cmd == 'ban':
+            player = self.server.getPlayerByName(data)
+            if player:
+                self.server.banPlayer(player)
 
     def __send_cmd__ (self, cmd, data):
         if data:

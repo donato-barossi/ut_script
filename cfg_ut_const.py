@@ -58,10 +58,13 @@ class UTMode(enum.Enum):
     UT_MOD_KNIFE_THROWN = 13
     UT_MOD_FLAG = 47
 
-
-# class UTWeapon(enum.Enum):
-
-
+class UTGearItems(enum.Enum):
+    Helmet = "W"
+    SmokeGrenade = "Q"
+    TacticalGoggles	= "S"
+    KevlarVest = "R"
+    Negev = "c"
+    
 class UTMsgType(enum.Enum):
     InitGame = 0
     Exit = 1
