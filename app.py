@@ -72,7 +72,7 @@ class App:
     def __update_user_info__(self, data):
         logging.debug('Update user [%s - %s - %s - %s]' % (data['ID'], data['GUID'], data['NAME'], data['WPMODE']))
         self.server.updatePlayer(data['ID'], data['GUID'], data['NAME'], data['WPMODE'], data['GEAR'], data['GUID'] in commands.ProtectedPlayers)
-        self.server.sendFunMsg(funMessages.getFunGearMessage(data['GEAR']), data['NAME'])
+        self.server.sendFunMsg(funMessages.getFunGearMessage(data['GEAR']), data['ID'])
 
     def __user_disconnected__(self, data):
         logging.debug('Player disconnected [%s]' % data['PLAYER_ID'])
