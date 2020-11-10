@@ -72,7 +72,7 @@ FunnyKillMessage = {
         ]}
 }
 
-def getFunGearMessage (guid, gear):
+def getFunGearMessage (gear):
     #Tactical Goggles	
     if gear.__contains__("S") == True:
         return "%s, solo i froci portano gli occhialini!"
