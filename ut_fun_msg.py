@@ -75,19 +75,19 @@ FunnyKillMessage = {
 def getFunGearMessage (gear):
     #Tactical Goggles	
     if gear.__contains__("S") == True:
-        return "%s, solo i froci portano gli occhialini!"
+        return "^1%s^7, solo i froci portano gli occhialini!"
     #Kevlar Vest
     if gear.__contains__("R") == False:
-        return "%s a petto nudo.. Ti senti forte!"
+        return "^1%s^7 a petto nudo.. Ti senti forte!"
     #Helmet
     if gear.__contains__("W") == False:
-        return "%s senza elmetto.. Ti senti fortunato!"
+        return "^1%s^7 senza elmetto.. Ti senti fortunato!"
     #Smoke Grenade
     if gear.__contains__("Q") == True:
-        return "%s, a chi vo roppe' li coglioni co ste fumogene?"
+        return "^1%s^7 a chi vo roppe' li coglioni co ste fumogene?"
     #IMI Negev
     if gear.__contains__("c") == True:
-        return "%s, hai preso un arma di fino!!"
+        return "^1%s^7 ha preso un arma di fino!"
 
 
 def getFunKillMessage(guid, mode):
