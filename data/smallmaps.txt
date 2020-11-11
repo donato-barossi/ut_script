@@ -7,4 +7,3 @@ ut_demolition
 ut4_1vs1-library
 ut4_turnpike_extended
 ut4_dressingroom
-ut4_swim
