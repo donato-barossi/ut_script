@@ -11,7 +11,7 @@ ServerTimeout = 2
 MessageDelay = 0.25
 
 # Admin config
-ServerRcon = "01Barossi"
+ServerRcon = "Barossi87"
 AdminGuids = ["6F80784BD6672C739E8DFE010F3D063B",
               "BF75A818B7749C51A991EB4EF4CB71DB",
               "44721144924F5A46C8C91CC53C725A76",
