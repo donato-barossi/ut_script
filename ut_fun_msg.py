@@ -56,7 +56,7 @@ FunnyDeadMessage = {
             "Piu' che una quaglia sembrava una ^1gallina^7!!"
         ]},
     # g1n8
-    'B44CA4A27A31FA0234CAA62E4F5EC67B' : {
+    '44721144924F5A46C8C91CC53C725A76' : {
         UTMode.UT_MOD_HEGRENADE: [
             "Caccia grossia al ^1cinghiale^7!!"
         ]}
