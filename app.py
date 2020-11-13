@@ -89,20 +89,24 @@ class App:
         logging.debug('%s kills %s. Mode: %s' % (data['KILLER'], data['DEAD'], data['HOW']))
         kills = self.server.updatePlayerKills(data['KILLER'])
         deaths = self.server.updatePlayerDead(data['DEAD'])
-        if self.server.sendFunMsg(funMessages.getKillMsg(int(data['HOW'])), data['DEAD']):
-            time.sleep(cfg.MessageDelay)
-        if self.server.sendFunMsg(funMessages.getKillStreakMsg(kills), data['KILLER']):
-            time.sleep(cfg.MessageDelay)
-        if self.server.sendFunMsg(funMessages.getSeriesOfDeadMsg(deaths), data['DEAD']):
-            time.sleep(cfg.MessageDelay)
-        killer = self.server.getPlayerById(data['KILLER'])
-        if killer:
-            self.server.sendFunMsg(funMessages.getFunKillMessage(killer.guid, int(data['HOW'])), data['DEAD'])
-        dead = self.server.getPlayerById(data['DEAD'])
-        if dead:
-            self.server.sendFunMsg(funMessages.getFunDeadMessage(dead.guid, int(data['HOW'])))
-        if data['KILLER'] != data['DEAD']:
-            self.server.printPlayerStats(data['KILLER'])
+        if self.server.getPlayerByName(data['DEAD']).isProtected:
+            self.server.sendCmd("slap " +  data['KILLER'])
+            self.server.sendFunMsg("^1" + data['DEAD'] + "^7 non si tocca!")
+        else:
+            if self.server.sendFunMsg(funMessages.getKillMsg(int(data['HOW'])), data['DEAD']):
+                time.sleep(cfg.MessageDelay)
+            if self.server.sendFunMsg(funMessages.getKillStreakMsg(kills), data['KILLER']):
+                time.sleep(cfg.MessageDelay)
+            if self.server.sendFunMsg(funMessages.getSeriesOfDeadMsg(deaths), data['DEAD']):
+                time.sleep(cfg.MessageDelay)
+            killer = self.server.getPlayerById(data['KILLER'])
+            if killer:
+                self.server.sendFunMsg(funMessages.getFunKillMessage(killer.guid, int(data['HOW'])), data['DEAD'])
+            dead = self.server.getPlayerById(data['DEAD'])
+            if dead:
+                self.server.sendFunMsg(funMessages.getFunDeadMessage(dead.guid, int(data['HOW'])))
+            if data['KILLER'] != data['DEAD']:
+                self.server.printPlayerStats(data['KILLER'])
 
     def __run_user_command__(self, data):
         logging.debug('%s send command %s %s' % (data['PLAYER'], data['CMD'], data['MSG']))
