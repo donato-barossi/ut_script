@@ -61,9 +61,10 @@ class App:
         self.server.removeMap(data['MAP'])
         if len(self.server.maps) == 0:
             self.server.loadMapsFromFile()
-        time.sleep(12)
+        time.sleep(10)
         map = self.server.getRandomMap()
         self.server.socket.nextMap(map)
+        self.server.say("Next map: %s" % map.name)
 
     def __game_over__(self, data):
         self.server.printAllStats()
@@ -89,10 +90,6 @@ class App:
         logging.debug('%s kills %s. Mode: %s' % (data['KILLER'], data['DEAD'], data['HOW']))
         kills = self.server.updatePlayerKills(data['KILLER'])
         deaths = self.server.updatePlayerDead(data['DEAD'])
-        #if self.server.getPlayerByName(data['DEAD']).isProtected:
-        #    self.server.sendCmd("slap " +  data['KILLER'])
-        #    self.server.sendFunMsg("^1" + data['DEAD'] + "^7 non si tocca!")
-        #else:
         if self.server.sendFunMsg(funMessages.getKillMsg(int(data['HOW'])), data['DEAD']):
             time.sleep(cfg.MessageDelay)
         if self.server.sendFunMsg(funMessages.getKillStreakMsg(kills), data['KILLER']):
@@ -117,8 +114,10 @@ class App:
             # commands to manage server
             if cmd:
                 if cmd.startswith('g_gametype') and data['MSG'] in GameType.__dict__:
-                    data['MSG'] = GameType[data['MSG']].value
-                self.__send_cmd__(cmd, data['MSG'])  
+                    msg = GameType[data['MSG']].value
+                else:
+                    msg = data['MSG']
+                self.__send_cmd__(cmd, msg)
             # custom commands like protect, allow, deny
             elif data['CMD']  in commands.CustomComds:
                 self.__exec_custom_command__(player, data['CMD'], data['MSG'])
@@ -172,7 +171,7 @@ class App:
                     if user != player:
                         logging.debug('Kill %s' % user.name)
                         self.server.sendCmd("smite " + user.name)
-                        time.sleep(cfg.MessageDelay)
+                        # time.sleep(cfg.MessageDelay)
         elif cmd == 'maplist':
             if data == 'reset':
                 self.server.loadMapsFromFile()
@@ -180,6 +179,7 @@ class App:
                 self.server.loadMapsFromFile('data/' + data + '.txt')
         elif cmd == 'ban':
             player = self.server.getPlayerByName(data)
+            logging.debug('Banning %s (data=%s)' % player.name, data)
             if player:
                 self.server.banPlayer(player)
 
