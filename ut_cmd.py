@@ -10,7 +10,9 @@ UtCmds = {
     'only' : "g_gear %s",
     'all' : "g_gear %s",
     'julianka' : "addbot Tiger 5 Blue 80 Julianka",
-    'alexa' : "addbot Puma 5 Blue 80 Alexa"
+    'alexa' : "addbot Puma 5 Blue 80 Alexa",
+    'porky' : "addbot Raven 5 Blue 80 Porky",
+    'maverick' : "addbot Scorpion 5 Blue 80 Maverick"
 }
 
 AppCmds = {
