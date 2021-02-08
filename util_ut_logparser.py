@@ -44,6 +44,12 @@ def __get_client_info__(line):
         data['GUID'] = res.group('guid')
         data['WPMODE'] = res.group('wpmode')
         data['GEAR'] = res.group('gear')
+    else: #bots support
+        regex = r"ClientUserinfo:\ (?P<id>\d+).*name\\(?P<name>[^\\]*)(\\|$).*bots"
+        res = re.search(regex, line)
+        if res:
+            data['ID'] = res.group('id')
+            data['NAME'] = res.group('name')
     return data
 
 
