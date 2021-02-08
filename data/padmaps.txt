@@ -10,6 +10,9 @@ wop_padshop_b4
 wop_journey_b3
 wop_padgarden_night_b4
 wop_monkroom_b4
-wop_padasia_b3
 wop_padbox_b3
 wop_bath_b4
+wop_huette_b4
+wop_padattic_b4
+wop_trashmap_b4
+wop_werkstatt_b3
