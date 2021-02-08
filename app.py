@@ -56,6 +56,8 @@ class App:
         return self.exit_status
 
     def __init_game__(self, data):
+        logging.debug("Print all player stats")
+        self.server.printAllStats()
         logging.debug("Reset all player stats")
         self.server.resetPlayersStats()
         logging.debug("Removing current map [%s] from map list" % data['MAP'])
