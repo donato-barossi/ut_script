@@ -56,6 +56,7 @@ class App:
         return self.exit_status
 
     def __init_game__(self, data):
+        time.sleep(15)
         logging.debug("Print all player stats")
         self.server.printAllStats()
         logging.debug("Reset all player stats")
