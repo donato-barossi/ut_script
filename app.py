@@ -56,13 +56,17 @@ class App:
         return self.exit_status
 
     def __init_game__(self, data):
-        logging.debug("Removing current map [%s] from map list" % data['MAP'])
+        logging.debug("Reset all player stats")
         self.server.resetPlayersStats()
+        logging.debug("Removing current map [%s] from map list" % data['MAP'])
         self.server.removeMap(data['MAP'])
         if len(self.server.maps) == 0:
+            logging.debug("Loading map list")
             self.server.loadMapsFromFile()
-        time.sleep(10)
+        time.sleep(2)
+        logging.debug("Getting random map")
         map = self.server.getRandomMap()
+        logging.debug("Configuring %s as next map" % map.name)
         self.server.socket.nextMap(map)
         self.server.say("Next map: %s" % map.name)
 

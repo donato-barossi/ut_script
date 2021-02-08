@@ -42,11 +42,11 @@ class UTServer:
                 butt = butt + player.stats.hits[Body.Butt.value]
             hits = sum(player.stats.hits.values())
             self.socket.console(
-                "%s^7 hai messo a segno %s colpi: [%s ^1HS^7 - %s in pieno petto - %s a culo]" % (player.name, hits,  hs, vest, butt))
-            maxKilledBy = player.stats.getMaxDeads
-            self.socket.console(
-                "%s^7 sei stato ucciso %s volte da %s^7. Il tuo incubo peggiore!" 
-                % (player.name, maxKilledBy[0], self.getPlayerById(maxKilledBy[1]).name))
+                "%s^7: %s hits [%s ^1HS^7 - %s in pieno petto - %s a culo]" % (player.name, hits,  hs, vest, butt))
+            maxKilledBy = player.stats.getMaxDeads()
+            if maxKilledBy:
+                self.socket.console(
+                    "%s^7 sei la vittima preferita di %s [%s^7 kill]" % (player.name, maxKilledBy[0], self.getPlayerById(maxKilledBy[1]).name))
 
     def tellToUser(self, user, msg):
         if user and isinstance(user, Player) and msg and isinstance(msg, str):
