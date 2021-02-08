@@ -71,7 +71,7 @@ class App:
         self.server.say("Next map: %s" % map.name)
 
     def __game_over__(self, data):
-        time.sleep(15)
+        #time.sleep(15)
         self.server.printAllStats()
         self.server.resetPlayersStats()
 

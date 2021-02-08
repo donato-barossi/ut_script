@@ -26,7 +26,11 @@ class UTServer:
 
     def printAllStats (self):
         for player in self.players:
-            self.printPlayerStats(player._id)
+            maxDead = player.stats.getMaxDeads()
+            if maxDead:
+                logging.debug("STATS: player=%s; deads=%s" % (player.name, maxDead))
+                self.socket.console(
+                    "%s^7 sei stato ammazzato %s volte da %s" % (player.name, maxDead[0], self.getPlayerById(maxDead[1]).name))
 
     def printPlayerStats(self, _id):
         player = self.getPlayerById(_id)
@@ -43,11 +47,11 @@ class UTServer:
             hits = sum(player.stats.hits.values())
             self.socket.console(
                 "%s^7: %s hits [%s ^1HS^7 - %s in pieno petto - %s a culo]" % (player.name, hits,  hs, vest, butt))
-            maxKilledBy = player.stats.getMaxDeads()
-            if maxKilledBy:
-                logging.debug("STATS: player=%s; deads=%s" % (player.name, maxKilledBy))
-                self.socket.console(
-                    "%s^7 sei la vittima preferita di %s [%s^7 kill]" % (player.name, maxKilledBy[0], self.getPlayerById(maxKilledBy[1]).name))
+            #maxKilledBy = player.stats.getMaxDeads()
+            #if maxKilledBy:
+            #    logging.debug("STATS: player=%s; deads=%s" % (player.name, maxKilledBy))
+            #    self.socket.console(
+            #        "%s^7 sei la vittima preferita di %s [%s^7 kill]" % (player.name, maxKilledBy[0], self.getPlayerById(maxKilledBy[1]).name))
 
     def tellToUser(self, user, msg):
         if user and isinstance(user, Player) and msg and isinstance(msg, str):
