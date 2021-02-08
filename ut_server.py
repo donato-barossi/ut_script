@@ -43,6 +43,10 @@ class UTServer:
             hits = sum(player.stats.hits.values())
             self.socket.console(
                 "%s^7 hai messo a segno %s colpi: [%s ^1HS^7 - %s in pieno petto - %s a culo]" % (player.name, hits,  hs, vest, butt))
+            maxKilledBy = player.stats.getMaxDeads
+            self.socket.console(
+                "%s^7 sei stato ucciso %s volte da %s^7. Il tuo incubo peggiore!" 
+                % player.name, maxKilledBy[0], self.getPlayerById(maxKilledBy[1]).name)
 
     def tellToUser(self, user, msg):
         if user and isinstance(user, Player) and msg and isinstance(msg, str):
@@ -94,19 +98,23 @@ class UTServer:
         else:
             return None
 
-    def updatePlayerKills(self, _id):
+    def updatePlayerKills(self, _id, killed = None):
         player = self.getPlayerById(_id)
         if player:
             player.stats.killsInRow = player.stats.killsInRow + 1
             player.stats.deathsInRow = 0
+            if killed:
+                player.stats.updateKillsStats(killed)
             return player.stats.killsInRow
         return -1
 
-    def updatePlayerDead(self, _id):
+    def updatePlayerDead(self, _id, killer = None):
         player = self.getPlayerById(_id)
         if player:
             player.stats.deathsInRow = player.stats.deathsInRow + 1
             player.stats.killsInRow = 0
+            if killer:
+                player.stats.updateDeadsStats(killer)
             return player.stats.deathsInRow
         return -1
 

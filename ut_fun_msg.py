@@ -57,7 +57,7 @@ FunnyDeadMessage = {
         ]},
     # g1n8
     '44721144924F5A46C8C91CC53C725A76' : {
-        UTMode.UT_MOD_HEGRENADE: [
+        UTMode.UT_MOD_HEGRENADE.value: [
             "Caccia grossia al ^1cinghiale^7!!"
         ]}
 }

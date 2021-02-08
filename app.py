@@ -117,7 +117,11 @@ class App:
                     msg = GameType[data['MSG']].value
                 else:
                     msg = data['MSG']
-                self.__send_cmd__(cmd, msg)
+                target = self.server.getPlayerByName(msg)
+                if target and target.isProtected:                   
+                    self.server.sendFunMsg(commands.getProtectedPlayersMsg(), target._id)
+                else: 
+                    self.__send_cmd__(cmd, msg)
             # custom commands like protect, allow, deny
             elif data['CMD']  in commands.CustomComds:
                 self.__exec_custom_command__(player, data['CMD'], data['MSG'])
@@ -171,7 +175,6 @@ class App:
                     if user != player:
                         logging.debug('Kill %s' % user.name)
                         self.server.sendCmd("smite " + user.name)
-                        # time.sleep(cfg.MessageDelay)
         elif cmd == 'maplist':
             if data == 'reset':
                 self.server.loadMapsFromFile()
