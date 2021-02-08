@@ -45,6 +45,7 @@ class UTServer:
                 "%s^7: %s hits [%s ^1HS^7 - %s in pieno petto - %s a culo]" % (player.name, hits,  hs, vest, butt))
             maxKilledBy = player.stats.getMaxDeads()
             if maxKilledBy:
+                logging.debug("STATS: player=%s; deads=%s" % (player.name, maxKilledBy))
                 self.socket.console(
                     "%s^7 sei la vittima preferita di %s [%s^7 kill]" % (player.name, maxKilledBy[0], self.getPlayerById(maxKilledBy[1]).name))
 
