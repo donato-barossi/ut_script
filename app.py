@@ -92,8 +92,8 @@ class App:
 
     def __update_kill_stats__(self, data):
         logging.debug('%s kills %s. Mode: %s' % (data['KILLER'], data['DEAD'], data['HOW']))
-        kills = self.server.updatePlayerKills(data['KILLER'])
-        deaths = self.server.updatePlayerDead(data['DEAD'])
+        kills = self.server.updatePlayerKills(data['KILLER'], data['DEAD'])
+        deaths = self.server.updatePlayerDead(data['DEAD'], data['KILLER'])
         if self.server.sendFunMsg(funMessages.getKillMsg(int(data['HOW'])), data['DEAD']):
             time.sleep(cfg.MessageDelay)
         if self.server.sendFunMsg(funMessages.getKillStreakMsg(kills), data['KILLER']):
