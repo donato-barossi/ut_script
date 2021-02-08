@@ -59,6 +59,12 @@ FunnyDeadMessage = {
     '44721144924F5A46C8C91CC53C725A76' : {
         UTMode.UT_MOD_HEGRENADE.value: [
             "Caccia grossia al ^1cinghiale^7!!"
+        ]},
+    # dr.geo
+    'BF75A818B7749C51A991EB4EF4CB71DB' : {
+        UTMode.UT_MOD_BLED.value: [
+            "Con tutto quel sangue ci facciamo il sanguinaccio!!",
+            "Dissanguato in quel modo... Solo un ^1maiale^7 fa quella fine!"
         ]}
 }
 
