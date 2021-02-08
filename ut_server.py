@@ -47,7 +47,7 @@ class UTServer:
             if maxKilledBy:
                 logging.debug("STATS: player=%s; deads=%s" % (player.name, maxKilledBy))
                 self.socket.console(
-                    "%s^7 sei la vittima preferita di %s [%s^7 kill]" % (player.name, maxKilledBy[0], self.getPlayerById(maxKilledBy[1]).name))
+                    "%s^7 sei la vittima preferita di %s [%s^7 kill]" % (player.name, maxKilledBy[0], self.getPlayerById(int(maxKilledBy[1])).name))
 
     def tellToUser(self, user, msg):
         if user and isinstance(user, Player) and msg and isinstance(msg, str):
