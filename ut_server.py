@@ -46,7 +46,7 @@ class UTServer:
             maxKilledBy = player.stats.getMaxDeads
             self.socket.console(
                 "%s^7 sei stato ucciso %s volte da %s^7. Il tuo incubo peggiore!" 
-                % player.name, maxKilledBy[0], self.getPlayerById(maxKilledBy[1]).name)
+                % (player.name, maxKilledBy[0], self.getPlayerById(maxKilledBy[1]).name))
 
     def tellToUser(self, user, msg):
         if user and isinstance(user, Player) and msg and isinstance(msg, str):
